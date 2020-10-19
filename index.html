@@ -1,0 +1,17 @@
+<body id="body">
+<script>
+    do {
+        var date = new Date(+Date.parse("1978-06-19") + Math.random() * (Date.now() - Date.parse("1978-06-19")));
+    } while (date.getDay() == 0);
+    var src = `http://picayune.uclick.com/comics/ga/${date.getFullYear()}/ga${date.getFullYear().toString().substr(2,2)}${(date.getMonth()+1).toString().padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}.gif`;
+    var img = document.createElement('img');
+    img.src = src;
+    document.getElementById('body').appendChild(img);
+    console.log(date);
+</script>
+    <img style="    height: 180px;
+    margin-left: -200px;
+    margin-top: -3px;
+    position: absolute;" src="https://i.imgur.com/cailyw7.png" />
+</body>
+
