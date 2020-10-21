@@ -6,6 +6,22 @@
     <canvas id="myCanvas" width="608" height="176" style="">
         Your browser does not support the HTML5 canvas tag.
     </canvas>
+        <div id="myBar" class="w3-container w3-green" style="height:4px;width:1%;background-color:orange;"></div>
+      <script>
+        function move() {
+          var elem = document.getElementById("myBar");
+          var width = 1;
+          var id = setInterval(frame, 50);
+          function frame() {
+            if (width >= 600) {
+              clearInterval(id);
+            } else {
+              width++;
+              elem.style.width = width + 'px';
+            }
+          }
+        }
+        </script>
     <script>
         do {
             var date = new Date(+Date.parse("1978-06-19") + Math.random() * (Date.now() - Date.parse("1978-06-19")));
@@ -31,7 +47,7 @@
             ctx.fillStyle = "#FFFFFF";
             ctx.fillRect(396, 0, 204, 176);
             ctx.drawImage(blender, 1, 1, 298, 264, 398, 1, 202, 178);
-
+            move();
         }
     </script>
 </body>
