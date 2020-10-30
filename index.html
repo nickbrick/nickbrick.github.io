@@ -23,6 +23,7 @@
         }
         </script>
     <script>
+        var panelId = 1;
         do {
             var date = new Date(+Date.parse("1978-06-19") + Math.random() * (Date.now() - Date.parse("1978-06-19")));
         } while (date.getDay() == 0);
@@ -32,8 +33,8 @@
         base.id = "base";
         blender.id = "blender";
         base.src = src;
-        // blender.src = "https://i.imgur.com/cailyw7.png"; // blender
-        blender.src = "https://cdn.discordapp.com/attachments/552297694647812155/771764423928578068/unknown.png"; // graphic nature
+        //blender.src = "https://i.imgur.com/cailyw7.png"; // blender
+        blender.src = "https://i.imgur.com/byYnyY7.png"; // graphic nature
         base.style = "display:none;";
         blender.style = "display:none;";
         document.getElementById('body').appendChild(base);
@@ -46,8 +47,14 @@
             var blender = document.getElementById("blender");
             ctx.drawImage(base, 0, 0);
             ctx.fillStyle = "#FFFFFF";
-            ctx.fillRect(396, 0, 204, 176);
-            ctx.drawImage(blender, 1, 1, 298, 264, 398, 1, 202, 178);
+            if (panelId == 1) {
+              ctx.fillRect(200, 0, 190, 176);
+              ctx.drawImage(blender, 1, 1, 298, 264, 202, 1, 196, 178);
+            }
+            if (panelId == 2) {
+              ctx.fillRect(396, 0, 204, 176);
+              ctx.drawImage(blender, 1, 1, 298, 264, 398, 1, 202, 178);
+            }
             move();
         }
     </script>
