@@ -72,14 +72,18 @@
         }
         function getMousePos(canvas, evt) {
             var rect = canvas.getBoundingClientRect();
-            x = (evt.clientX - rect.left - rect.width/2)/rect.width*2;
-            y = ((evt.clientY - rect.top - rect.height/2)*-1)/rect.height*2;
+            x_ = ((evt.clientX - rect.left - rect.width/2)/rect.width*2);
+            y_ = (((evt.clientY - rect.top - rect.height/2)*-1)/rect.height*2);
+            r_ = Math.sqrt(x_**2+y_**2);
+            if (r_ <= 1) r_ = 1;
+            x = ((evt.clientX - rect.left - rect.width/2)/rect.width*2)/r_;
+            y = (((evt.clientY - rect.top - rect.height/2)*-1)/rect.height*2)/r_;
             r = Math.sqrt(x**2+y**2);
             curvex = curve(x);
             curvey = -curve(y);
-            curver = curve(r,Math.SQRT2-0.01);
-            rawx = evt.clientX - rect.left;
-            rawy = evt.clientY - rect.top;
+            curver = curve(r,1);
+            rawx = rect.width / 2 + x * rect.width/2;
+            rawy = rect.height / 2 -y * rect.height/2;
             goodcurvex = (curver / r) * x;
             goodcurvey = (curver / r) * y;
             goodrawcurvex = rect.width / 2 + goodcurvex * rect.width/2;
@@ -119,11 +123,17 @@
             ctx.moveTo(canvas.width/2, 0);
             ctx.lineTo(canvas.width/2,canvas.height );
             ctx.stroke();
+            //circle
+            ctx.beginPath();
+            ctx.strokeStyle = "black";
+            ctx.arc(canvas.width/2, canvas.height/2, canvas.width/2, 0, 2 * Math.PI);
+            ctx.stroke();
             //x,y
             ctx.fillStyle = "blue";
             ctx.fillRect(mousePos.rawx-3, canvas.height/2-3, 7, 7);
             ctx.fillRect(canvas.width/2-3,mousePos.rawy-3, 7, 7);
             //r
+            ctx.beginPath();
             ctx.strokeStyle = "blue";
             ctx.moveTo(canvas.width/2, canvas.height/2);
             ctx.lineTo(mousePos.rawx, mousePos.rawy );
