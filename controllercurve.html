@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        canvas {
+            border: 1px solid;
+            margin: 100px 0px 0px 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="inputCanvas" width="800" height="800"></canvas>
+    <div id="status" style="padding:10px;">
+        <table>
+            <th></th>
+            <th></th>
+            <th>x</th>
+            <th>y</th>
+            <th>r</th>
+            <tr>
+                <td style="background-color: blue;">:::</td>
+                <td>Input</td>
+                <td><span id="x"></span></td>
+                <td><span id="y"></span></td>
+                <td><span id="r"></span></td>
+            </tr>
+            <tr>
+                <td style="background-color: red;"></td>
+                <td>Output: per axis</td>
+                <td><span id="x'1"></span></td>
+                <td><span id="y'1"></span></td>
+                <td><span id="r'1"></span></td>
+            </tr>
+            <tr>
+                <td style="background-color: green;"></td>
+                <td>Output: magnitude</td>
+                <td><span id="x'2"></span></td>
+                <td><span id="y'2"></span></td>
+                <td><span id="r'2"></span></td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        function curve(x,min=1,deadzone=0.64){
+            x_ = Math.abs(parseFloat(x));
+            if (x_ < deadzone) return x_ * Math.sign(x);
+            return Math.min( (2 ** (x_*0.535712858608055+0.240120240728329)-1)*1.15238739988089*x_**2+0.404965073053606,min) * Math.sign(x);
+        }
+        window.onload = function(){
+            var ctx = canvas.getContext("2d");
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height/2);
+            ctx.lineTo(canvas.width,canvas.height/2 );
+            ctx.stroke();
+            ctx.moveTo(canvas.width/2, 0);
+            ctx.lineTo(canvas.width/2,canvas.height );
+            ctx.stroke();
+        }
+        function writeMessage(canvas, message, y) {
+            var context = canvas.getContext('2d');
+            context.clearRect(0, y, canvas.width, 20);
+            context.font = '18pt Calibri';
+            context.fillStyle = 'black';
+            context.fillText(message, 10, 25);
+        }
+        function getMousePos(canvas, evt) {
+            var rect = canvas.getBoundingClientRect();
+            x = (evt.clientX - rect.left - rect.width/2)/rect.width*2;
+            y = ((evt.clientY - rect.top - rect.height/2)*-1)/rect.height*2;
+            r = Math.sqrt(x**2+y**2);
+            curvex = curve(x);
+            curvey = -curve(y);
+            curver = curve(r,Math.SQRT2-0.01);
+            rawx = evt.clientX - rect.left;
+            rawy = evt.clientY - rect.top;
+            goodcurvex = (curver / r) * x;
+            goodcurvey = (curver / r) * y;
+            goodrawcurvex = rect.width / 2 + goodcurvex * rect.width/2;
+            goodrawcurvey = rect.height / 2 -goodcurvey * rect.height/2;
+            return {
+                x: x,
+                y: y,
+                r: r,
+                rawx: rawx,
+                rawy: rawy,
+                curvex: curvex,
+                curvey: curvey,
+                curver: curver,
+                rawcurvex: rect.width/2 + curvex * rect.width/2,
+                rawcurvey: rect.height/2 + curvey * rect.height/2,
+                goodcurvex: goodcurvex,
+                goodcurvey: goodcurvey,
+                goodrawcurvex: goodrawcurvex, 
+                goodrawcurvey: goodrawcurvey  
+            };
+        }
+
+        var canvas = document.getElementById('inputCanvas');
+        var context = canvas.getContext('2d');
+
+        canvas.addEventListener('mousemove', function (evt) {
+            var mousePos = getMousePos(canvas, evt);
+
+            var ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // axes
+            ctx.setLineDash([]);
+            ctx.strokeStyle = "black";
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height/2);
+            ctx.lineTo(canvas.width,canvas.height/2 );
+            ctx.moveTo(canvas.width/2, 0);
+            ctx.lineTo(canvas.width/2,canvas.height );
+            ctx.stroke();
+            //x,y
+            ctx.fillStyle = "blue";
+            ctx.fillRect(mousePos.rawx-3, canvas.height/2-3, 7, 7);
+            ctx.fillRect(canvas.width/2-3,mousePos.rawy-3, 7, 7);
+            //r
+            ctx.strokeStyle = "blue";
+            ctx.moveTo(canvas.width/2, canvas.height/2);
+            ctx.lineTo(mousePos.rawx, mousePos.rawy );
+            ctx.stroke();
+            curvex, curvey
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.strokeStyle = "red";
+            ctx.fillStyle = "red";
+            ctx.fillRect(mousePos.rawcurvex-3, canvas.height/2-3, 7, 7);
+            ctx.fillRect(canvas.width/2-3,mousePos.rawcurvey-3, 7, 7);
+            ctx.moveTo(mousePos.rawcurvex, canvas.height/2);
+            ctx.lineTo(mousePos.rawcurvex,mousePos.rawcurvey);
+            ctx.lineTo(canvas.width/2,mousePos.rawcurvey);
+            ctx.stroke();
+            //curver
+            ctx.beginPath();
+            ctx.setLineDash([]);
+            ctx.moveTo(canvas.width/2, canvas.height/2);
+            ctx.lineTo(mousePos.rawcurvex,mousePos.rawcurvey);
+            ctx.stroke();
+            //goodcurver
+            ctx.beginPath();
+            ctx.strokeStyle = "green";
+            ctx.moveTo(mousePos.rawx,mousePos.rawy);
+            ctx.lineTo(mousePos.goodrawcurvex,mousePos.goodrawcurvey);
+            ctx.stroke();
+
+
+            var message = 'Input:  ' + mousePos.x + ',' + mousePos.y;
+            message = 'Output: ' + mousePos.curvex.toFixed(2) + ',' + mousePos.curvey.toFixed(2);
+            document.getElementById("x").innerHTML = mousePos.x.toFixed(2);
+            document.getElementById("y").innerHTML = mousePos.y.toFixed(2);
+            document.getElementById("r").innerHTML = Math.sqrt(mousePos.x**2+mousePos.y**2).toFixed(2);
+
+            document.getElementById("x'1").innerHTML = mousePos.curvex.toFixed(2);
+            document.getElementById("y'1").innerHTML = mousePos.curvey.toFixed(2);
+            document.getElementById("r'1").innerHTML = Math.sqrt(mousePos.curvex**2+mousePos.curvey**2).toFixed(2);
+
+            document.getElementById("x'2").innerHTML = mousePos.goodcurvex.toFixed(2);
+            document.getElementById("y'2").innerHTML = mousePos.goodcurvey.toFixed(2);
+            document.getElementById("r'2").innerHTML = Math.sqrt(mousePos.goodcurvex**2+mousePos.goodcurvey**2).toFixed(2);
+
+        }, false);
+    </script>
+    
+    
+    
+</body>
+
+</html>
