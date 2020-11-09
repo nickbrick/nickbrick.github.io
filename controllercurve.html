@@ -109,7 +109,7 @@
         var canvas = document.getElementById('inputCanvas');
         var context = canvas.getContext('2d');
 
-        canvas.addEventListener('mousemove', function (evt) {
+        window.addEventListener('mousemove', function (evt) {
             var mousePos = getMousePos(canvas, evt);
 
             var ctx = canvas.getContext("2d");
