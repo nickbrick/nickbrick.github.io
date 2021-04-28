@@ -19,8 +19,10 @@ var rAF = window.mozRequestAnimationFrame ||
 
 var canvas = document.getElementById('inputCanvas');
 var context = canvas.getContext('2d');
-
-
+timeSeriesLength = 300;
+timeSeries = [];
+time = [...Array(timeSeriesLength).keys()];
+colors = ['red', 'blue', 'green', 'magenta', 'teal', 'olive', 'pink', 'violet', 'sky', 'orange', 'navy', 'grey']; 
 function connecthandler(e) {
   addgamepad(e.gamepad);
 }
@@ -64,6 +66,8 @@ function addgamepad(gamepad) {
     yoption.text = i;
     document.getElementById("xAxis").add(xoption);
     document.getElementById("yAxis").add(yoption);
+
+    timeSeries[i]=Array(timeSeriesLength).fill(0);
   }
   d.appendChild(a);
   document.getElementById("start").style.display = "none";
@@ -71,6 +75,8 @@ function addgamepad(gamepad) {
   rAF(updateStatus);
   document.getElementById("xAxis").selectedIndex = 0;
   document.getElementById("yAxis").selectedIndex = 1;
+
+  initGraph(gamepad);
 }
 
 function disconnecthandler(e) {
@@ -117,9 +123,15 @@ function updateStatus() {
       var a = axes[i];
       a.innerHTML = i + ": " + controller.axes[i].toFixed(4);
       a.setAttribute("value", controller.axes[i]);
+      timeSeries[i].shift();
+      timeSeries[i].push(controller.axes[i]);
     }
+    time.shift();
+    time.push(time[timeSeriesLength-2]+1);
     drawStick(controller.axes);
   }
+  data1 = [time].concat(timeSeries);
+  uplot1.setData(data1);
   rAF(updateStatus);
 }
 
@@ -171,6 +183,7 @@ function initStick(ctx) {
   ctx.beginPath();
   ctx.strokeStyle = "black";
   ctx.arc(canvas.width / 2, canvas.height / 2, (canvas.width-50) / 2, 0, 2 * Math.PI);
+  ctx.arc(canvas.width / 2, canvas.height / 2, (canvas.width-50) / 2 / 4, 0, 2 * Math.PI);
   ctx.stroke();
   ctx.closePath();
 
@@ -191,4 +204,60 @@ function drawPos(ctx, x, y){
 }
 function axisToCanvas(x){
   return x*(canvas.width-50)/2+(canvas.width)/2;
+}
+
+function initGraph(gamepad){
+  series = gamepad.axes.map(function(x, i){
+    return {
+      label: 'axis-'+i,
+        scale: "Value",
+        value: (u, v) => v == null ? "-" : v.toFixed(1),
+        stroke: colors[i],
+    }});
+  const opts = {
+    title: "",
+    width: 1600,
+    height: 600,
+    cursor: {
+      drag: {
+        setScale: false,
+      }
+    },
+    select: {
+      show: false,
+    },
+    series: 
+    [
+      {
+        show:false,
+        label:"t"
+      }
+    ].concat(series),
+    axes: [
+      {
+        scale:'x',
+        show:false
+      },
+      {
+        scale: 'Value',
+      }
+    ],
+    scales: {
+      'x': {
+        auto: true,
+        time:false,
+        range: (min, max) => [time[0], time[timeSeriesLength-1]],
+      },
+      "Value": {
+        range: [-1, 1],
+      }
+    },
+  };
+
+if (typeof time !=='undefined'){
+     data1 = [time].concat(timeSeries);
+   uplot1 = new uPlot(opts, data1, document.body);
+}
+  uplot1.setData(data1);
+  
 }
