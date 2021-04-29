@@ -1,96 +1,61 @@
-<!DOCTYPE html>
-<html>
-
 <head>
-  <meta charset="utf-8">
-  <!--
-
-Gamepad API Test
-
-Written in 2013 by Ted Mielczarek <ted@mielczarek.org>
-
-To the extent possible under law, the author(s) have dedicated all copyright and related and neighboring rights to this software to the public domain worldwide. This software is distributed without any warranty.
-
-You should have received a copy of the CC0 Public Domain Dedication along with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
-
--->
-  <link rel="stylesheet" href="uPlot.min.css">
-  <style>
-    .axes {
-      padding: 1em;
-    }
-
-    .buttons {
-      margin-left: 1em;
-    }
-
-    /*meter*/
-    .axis {
-      min-width: 200px;
-    }
-
-    .button {
-      display: inline-block;
-      width: 1em;
-      text-align: center;
-      padding: 1em;
-      border-radius: 100%;
-      border: 1px solid black;
-      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYPjPAAACAgEAqiqeJwAAAABJRU5ErkJggg==);
-      background-size: 0% 0%;
-      background-position: 50% 50%;
-      background-repeat: no-repeat;
-    }
-
-    .pressed {
-      border: 1px solid red;
-    }
-
-    .touched::after {
-      content: "";
-      display: block;
-      position: absolute;
-      margin-top: -0.2em;
-      margin-left: -0.5em;
-      font-size: 0.8em;
-      opacity: 0.7;
-    }
-
-    #container {
-      display: flex;
-      align-items: flex-end;
-    }
-  </style>
+    <meta http-equiv="refresh" content="30" url="https://nickbrick.github.io" />
 </head>
 
-<body>
-  <h2 id="start">Press a button on your controller to start</h2>
-  <div id="container">
-    <canvas id="inputCanvas" width="600" height="600"></canvas>
-    <div>
-      <div>x:<select id="xAxis"></select></div>
-      <div>y:<select id="yAxis"></select></div>
-      <button onclick="clearStick();">Clear</button>
-    </div>
-    <div>
-      <strong>Readme:</strong><br>
-      <div id="topp">
-      <p>This app was made to help test and evaluate your controller's sticks. <br>
-        Identify the analog axes of your stick on the bars below and assign the desired axes to the heatmap graph on the left.<br>
-        You can use the heatmap to test whether your stick is not maxing out consistently in all directions, jumping around erraticaly,<br>
-        or resting off-center when neutral (drift). Example <a href="https://cdn.discordapp.com/attachments/552297694647812155/837351667598622751/g4RVc2XLgAAAABJRU5ErkJggg.png">here</a>.<br>
-        For reference, there are circles at 25% and 100%.<br>
-        Refer to <a href="https://cdn.discordapp.com/attachments/445794790005538836/837008671203655701/VID_20210428_1951352.mp4">this</a> video for how you can conduct a drift test.<br>
-        You can right click to save the heatmap image.<br>
-        Use the graph at the bottom to analyze the performance of each axis in real time. Click in the legend to show/hide the ones you want.<br>
-        <br>
-        <strong>Important: The app does not support multiple controllers connected at the same time!</strong><br><br>
-      </p>
-    </div>
-    </div>
-  </div>
+<body id="body">
+    <canvas id="myCanvas" width="608" height="176" style="">
+        Your browser does not support the HTML5 canvas tag.
+    </canvas>
+        <div id="myBar" class="w3-container w3-green" style="height:4px;width:1%;background-color:orange;"></div>
+      <script>
+        function move() {
+          var elem = document.getElementById("myBar");
+          var width = 1;
+          var id = setInterval(frame, 50);
+          function frame() {
+            if (width >= 600) {
+              clearInterval(id);
+            } else {
+              width++;
+              elem.style.width = width + 'px';
+            }
+          }
+        }
+        </script>
+    <script>
+        var panelId = 2;
+        do {
+            var date = new Date(+Date.parse("1978-06-19") + Math.random() * (Date.now() - Date.parse("1978-06-19")));
+        } while (date.getDay() == 0);
+        var src = `http://picayune.uclick.com/comics/ga/${date.getFullYear()}/ga${date.getFullYear().toString().substr(2, 2)}${(date.getMonth() + 1).toString().padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}.gif`;
+        var base = document.createElement('img');
+        var blender = document.createElement('img');
+        base.id = "base";
+        blender.id = "blender";
+        base.src = src;
+        blender.src = "https://i.imgur.com/cailyw7.png"; // blender
+        //blender.src = "https://i.imgur.com/byYnyY7.png"; // graphic nature
+        base.style = "display:none;";
+        blender.style = "display:none;";
+        document.getElementById('body').appendChild(base);
+        document.getElementById('body').appendChild(blender);
+        console.log(date);
+        window.onload = function () {
+            var c = document.getElementById("myCanvas");
+            var ctx = c.getContext("2d");
+            var base = document.getElementById("base");
+            var blender = document.getElementById("blender");
+            ctx.drawImage(base, 0, 0);
+            ctx.fillStyle = "#FFFFFF";
+            if (panelId == 1) {
+              ctx.fillRect(200, 0, 190, 176);
+              ctx.drawImage(blender, 1, 1, 298, 264, 202, 1, 196, 178);
+            }
+            if (panelId == 2) {
+              ctx.fillRect(396, 0, 204, 176);
+              ctx.drawImage(blender, 1, 1, 298, 264, 398, 1, 202, 178);
+            }
+            move();
+        }
+    </script>
 </body>
-
-</html>
-<script type="text/javascript" src="gamepadtest.js"></script>
-<script type="text/javascript" src="uPlot.iife.js"></script>
