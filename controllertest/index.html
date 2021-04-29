@@ -56,7 +56,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
       opacity: 0.7;
     }
 
-    #topp {
+    #container {
       display: flex;
       align-items: flex-end;
     }
@@ -65,11 +65,28 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 
 <body>
   <h2 id="start">Press a button on your controller to start</h2>
-  <div id="topp">
+  <div id="container">
     <canvas id="inputCanvas" width="600" height="600"></canvas>
     <div>
       <div>x:<select id="xAxis"></select></div>
       <div>y:<select id="yAxis"></select></div>
+      <button onclick="clearStick();">Clear</button>
+    </div>
+    <div>
+      <strong>Readme:</strong><br>
+      <div id="topp">
+      <p>This app was made to help test and evaluate your controller's sticks. <br>
+        Identify the analog axes of your stick on the bars below and assign the desired axes to the heatmap graph on the left.<br>
+        You can use the heatmap to test whether your stick is not maxing out consistently in all directions, jumping around erraticaly,<br>
+        or resting off-center when neutral (drift). Example <a href="https://cdn.discordapp.com/attachments/552297694647812155/837351667598622751/g4RVc2XLgAAAABJRU5ErkJggg.png">here</a>.<br>
+        For reference, there are circles at 25% and 100%.<br>
+        Refer to <a href="https://cdn.discordapp.com/attachments/445794790005538836/837008671203655701/VID_20210428_1951352.mp4">this</a> video for how you can conduct a drift test.<br>
+        You can right click to save the heatmap image.<br>
+        Use the graph at the bottom to analyze the performance of each axis in real time. Click in the legend to show/hide the ones you want.<br>
+        <br>
+        <strong>Important: The app does not support multiple controllers connected at the same time!</strong><br><br>
+      </p>
+    </div>
     </div>
   </div>
 </body>

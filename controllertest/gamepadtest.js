@@ -21,9 +21,8 @@ var canvas = document.getElementById('inputCanvas');
 var context = canvas.getContext('2d');
 timeSeriesLength = 300;
 timeSeries = [];
-timeSeriesDeltas = [];
 time = [...Array(timeSeriesLength).keys()];
-colors = ['red', 'blue', 'green', 'magenta', 'teal', 'olive', 'pink', 'violet', 'skyblue', 'orange', 'navy', 'grey']; 
+colors = ['red', 'blue', 'green', 'magenta', 'teal', 'olive', 'pink', 'violet', 'skyblue', 'orange', 'navy', 'grey'];
 function connecthandler(e) {
   addgamepad(e.gamepad);
 }
@@ -53,7 +52,7 @@ function addgamepad(gamepad) {
     e.id = "axis-" + i;
     label = document.createElement("span");
     label.setAttribute("for", e.id);
-    label.innerHTML = i+":";
+    label.innerHTML = i + ":";
     e.setAttribute("min", "-1");
     e.setAttribute("max", "1");
     e.setAttribute("value", "0");
@@ -68,8 +67,7 @@ function addgamepad(gamepad) {
     document.getElementById("xAxis").add(xoption);
     document.getElementById("yAxis").add(yoption);
 
-    timeSeries[i]=Array(timeSeriesLength).fill(0);
-    timeSeriesDeltas[i]=Array(timeSeriesLength).fill(0);
+    timeSeries[i] = Array(timeSeriesLength).fill(0);
   }
   d.appendChild(a);
   document.getElementById("start").style.display = "none";
@@ -128,15 +126,12 @@ function updateStatus() {
       a.setAttribute("value", controller.axes[i]);
       timeSeries[i].shift();
       timeSeries[i].push(controller.axes[i]);
-      timeSeriesDeltas[i].shift();
-      timeSeriesDeltas[i].push(timeSeries[i][timeSeriesLength-1]-timeSeries[i][timeSeriesLength-2]);
     }
     time.shift();
-    time.push(time[timeSeriesLength-2]+1);
+    time.push(time[timeSeriesLength - 2] + 1);
     drawStick(controller.axes);
   }
-  // data1 = [time].concat(timeSeries);
-  data1 = [time].concat(timeSeriesDeltas);
+  data1 = [time].concat(timeSeries);
   uplot1.setData(data1);
   rAF(updateStatus);
 }
@@ -161,8 +156,7 @@ if (haveEvents) {
 }
 
 window.onload = function () {
-  var ctx = canvas.getContext("2d");
-  initStick(ctx);
+  clearStick();
 }
 
 function drawStick(axes) {
@@ -171,14 +165,18 @@ function drawStick(axes) {
   var ctx = canvas.getContext("2d");
   //initStick(ctx);
   drawPos(ctx, x, y);
-  
-}
 
+}
+function clearStick(){
+  var ctx = canvas.getContext("2d");
+  initStick(ctx);
+}
 function initStick(ctx) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   // axes
+  ctx.lineWidth = 1;
   ctx.setLineDash([]);
   ctx.strokeStyle = "black";
   ctx.beginPath();
@@ -190,13 +188,13 @@ function initStick(ctx) {
   //circle
   ctx.beginPath();
   ctx.strokeStyle = "black";
-  ctx.arc(canvas.width / 2, canvas.height / 2, (canvas.width-50) / 2, 0, 2 * Math.PI);
-  ctx.arc(canvas.width / 2, canvas.height / 2, (canvas.width-50) / 2 / 4, 0, 2 * Math.PI);
+  ctx.arc(canvas.width / 2, canvas.height / 2, (canvas.width - 50) / 2, 0, 2 * Math.PI);
+  ctx.arc(canvas.width / 2, canvas.height / 2, (canvas.width - 50) / 2 / 4, 0, 2 * Math.PI);
   ctx.stroke();
   ctx.closePath();
 
 }
-function drawPos(ctx, x, y){
+function drawPos(ctx, x, y) {
   x = axisToCanvas(x);
   y = axisToCanvas(y);
   ctx.beginPath();
@@ -204,25 +202,26 @@ function drawPos(ctx, x, y){
     ctx.moveTo(prevX, prevY);
   ctx.strokeStyle = "#ff000011";
   ctx.lineWidth = 3;
-  ctx.lineTo(x,y);
+  ctx.lineTo(x, y);
   ctx.stroke();
   ctx.closePath();
   prevX = x;
   prevY = y;
 }
-function axisToCanvas(x){
-  return x*(canvas.width-50)/2+(canvas.width)/2;
+function axisToCanvas(x) {
+  return x * (canvas.width - 50) / 2 + (canvas.width) / 2;
 }
 
-function initGraph(gamepad){
-  series = gamepad.axes.map(function(x, i){
+function initGraph(gamepad) {
+  series = gamepad.axes.map(function (x, i) {
     return {
-      label: 'axis-'+i,
-        scale: "Value",
-        value: (u, v) => v == null ? "-" : v.toFixed(1),
-        stroke: colors[i],
-        width: 2,
-    }});
+      label: 'axis-' + i,
+      scale: "Value",
+      value: (u, v) => v == null ? "-" : v.toFixed(1),
+      stroke: colors[i],
+      width: 2,
+    }
+  });
   const opts = {
     title: "",
     width: 1600,
@@ -235,17 +234,17 @@ function initGraph(gamepad){
     select: {
       show: false,
     },
-    series: 
-    [
-      {
-        show:false,
-        label:"t"
-      }
-    ].concat(series),
+    series:
+      [
+        {
+          show: false,
+          label: "t"
+        }
+      ].concat(series),
     axes: [
       {
-        scale:'x',
-        show:false
+        scale: 'x',
+        show: false
       },
       {
         scale: 'Value',
@@ -254,8 +253,8 @@ function initGraph(gamepad){
     scales: {
       'x': {
         auto: true,
-        time:false,
-        range: (min, max) => [time[0], time[timeSeriesLength-1]],
+        time: false,
+        range: (min, max) => [time[0], time[timeSeriesLength - 1]],
       },
       "Value": {
         range: [-1, 1],
@@ -263,12 +262,8 @@ function initGraph(gamepad){
     },
   };
 
-if (typeof time !=='undefined'){
-     //data1 = [time].concat(timeSeries);
-     //data1 = [time].concat(timeSeriesDeltas);
-     data1=[]
-   uplot1 = new uPlot(opts, data1, document.body);
-}
-  //uplot1.setData(data1);
-  
+  if (typeof time !== 'undefined') {
+    data1 = [];
+    uplot1 = new uPlot(opts, data1, document.body);
+  }
 }
