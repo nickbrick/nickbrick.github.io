@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<!--
+  <meta charset="utf-8">
+  <!--
 
 Gamepad API Test
 
@@ -13,59 +14,66 @@ To the extent possible under law, the author(s) have dedicated all copyright and
 You should have received a copy of the CC0 Public Domain Dedication along with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 -->
-<link rel="stylesheet" href="uPlot.min.css">
-<style>
-.axes {
-  padding: 1em;
-}
+  <link rel="stylesheet" href="uPlot.min.css">
+  <style>
+    .axes {
+      padding: 1em;
+    }
 
-.buttons {
-  margin-left: 1em;
-}
+    .buttons {
+      margin-left: 1em;
+    }
 
-/*meter*/.axis {
-  min-width: 200px;
-  margin: 1em;
-}
+    /*meter*/
+    .axis {
+      min-width: 200px;
+    }
 
-.button {
-  display: inline-block;
-  width: 1em;
-  text-align: center;
-  padding: 1em;
-  border-radius: 100%;
-  border: 1px solid black;
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYPjPAAACAgEAqiqeJwAAAABJRU5ErkJggg==);
-  background-size: 0% 0%;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-}
+    .button {
+      display: inline-block;
+      width: 1em;
+      text-align: center;
+      padding: 1em;
+      border-radius: 100%;
+      border: 1px solid black;
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYPjPAAACAgEAqiqeJwAAAABJRU5ErkJggg==);
+      background-size: 0% 0%;
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+    }
 
-.pressed {
-  border: 1px solid red;
-}
+    .pressed {
+      border: 1px solid red;
+    }
 
-.touched::after {
-  content: "";
-  display: block;
-  position: absolute;
-  margin-top: -0.2em;
-  margin-left: -0.5em;
-  font-size: 0.8em;
-  opacity: 0.7;
-}
-</style>
+    .touched::after {
+      content: "";
+      display: block;
+      position: absolute;
+      margin-top: -0.2em;
+      margin-left: -0.5em;
+      font-size: 0.8em;
+      opacity: 0.7;
+    }
+
+    #topp {
+      display: flex;
+      align-items: flex-end;
+    }
+  </style>
 </head>
+
 <body>
-<h2 id="start">Press a button on your controller to start</h2>
-<canvas id="inputCanvas" width="600" height="600"></canvas>
-<div>
-x:<select id="xAxis"></select>
-y:<select id="yAxis"></select>
-</div>
+  <h2 id="start">Press a button on your controller to start</h2>
+  <div id="topp">
+    <canvas id="inputCanvas" width="600" height="600"></canvas>
+    <div>
+      <div>x:<select id="xAxis"></select></div>
+      <div>y:<select id="yAxis"></select></div>
+    </div>
+  </div>
 </body>
+
 </html>
 <script type="text/javascript" src="gamepadtest.js"></script>
 <script type="text/javascript" src="uPlot.iife.js"></script>
-
-
