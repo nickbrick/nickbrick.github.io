@@ -1,0 +1,33 @@
+.game{
+    width:100%;
+    height: 100%;
+}
+
+tr{
+    display: inline-flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+.tower{
+    border:solid black 1px;
+    width: 33%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    touch-action: manipulation;
+}
+
+.disc{
+    margin-left: auto;
+    margin-right: auto;
+    background: radial-gradient(black, transparent);
+    color: transparent;
+}
+
+.disc.lift{
+    margin-bottom: 50px;
+    margin-top: -50px;
+}

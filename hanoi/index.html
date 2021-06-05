@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="hanoi.css">
+
+<body style="background-color: dimgray;">
+    <table class="game">
+        <tr>
+            <td class="tower" data-i="0">
+            </td>
+            <td class="tower" data-i="1">
+            </td>
+            <td class="tower" data-i="2">
+            </td>
+        </tr>
+    </table>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+<script type="text/javascript" src="hanoi.js"></script>
+<script>
+    $(function () {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('n'))
+            init(parseInt(params.get('n')));
+        else
+            init(5);
+        dump();
+        $('.tower').on('touchstart', function () {
+            if (hand == null)
+                lift(parseInt($(this).attr('data-i')));
+            else
+                drop(parseInt($(this).attr('data-i')));
+            dump();
+
+        })
+    });
+</script>
