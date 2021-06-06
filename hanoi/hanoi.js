@@ -1,3 +1,4 @@
+
 dump = function(){
     towers.forEach(t => {
         console.log(t);
@@ -39,5 +40,13 @@ drop = function(i){
             getTower(i).prepend(disc);
             disc.removeClass('lift');
             hand = null;
+            moves ++;
         }
+}
+
+checkWin = function(){
+    if ((towers[1].length == n) || (towers[2].length == n)){
+        t1 = performance.now();
+        alert(`Win. Moves: ${moves}/${2**n-1} Time: ${Math.round((t1-t0))/1000} s`);
+    }
 }

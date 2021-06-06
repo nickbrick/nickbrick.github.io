@@ -16,8 +16,8 @@ tr{
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    height: 100%;
     touch-action: manipulation;
+    border-bottom: 100px darkgrey solid;
 }
 
 .disc{

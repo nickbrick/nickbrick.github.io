@@ -17,19 +17,22 @@
 <script type="text/javascript" src="hanoi.js"></script>
 <script>
     $(function () {
+        n = 5;
+        moves = 0;
         const params = new URLSearchParams(window.location.search);
-        if (params.has('n'))
-            init(parseInt(params.get('n')));
-        else
-            init(5);
+        if (params.has('n')){
+            n = params.get('n');
+        }
+        init(parseInt(n));
         dump();
         $('.tower').on('touchstart', function () {
+            if (moves == 0) t0 = performance.now();
             if (hand == null)
                 lift(parseInt($(this).attr('data-i')));
             else
                 drop(parseInt($(this).attr('data-i')));
             dump();
-
+            checkWin();
         })
     });
 </script>
