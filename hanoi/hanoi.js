@@ -18,8 +18,8 @@ init = function (n) {
     towers = [[...Array(n).keys()].reverse(), [], []];
     hand = null;
     for (let i = 0; i < n; i++) {
-        getTower(0).append(`<div data-r="${i}" class="disc" style="width:${i + 1}0%;">${i}</div>`);
-
+        width = n > 10 ? (i+1)*100/n : (i+1)*10;
+        getTower(0).append(`<div data-r="${i}" class="disc" style="width:${width}%;">${i}</div>`);
     }
 }
 
