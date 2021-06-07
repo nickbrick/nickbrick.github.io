@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="hanoi.css">
-<link rel="manifest" href="manifest.json">
+<html>
+
 <body style="background-color: dimgray;">
     <table class="game">
         <tr>
@@ -12,6 +13,8 @@
         </tr>
     </table>
 </body>
+
+</html>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous"></script>
 <script type="text/javascript" src="hanoi.js"></script>
@@ -20,7 +23,7 @@
         n = 5;
         moves = 0;
         const params = new URLSearchParams(window.location.search);
-        if (params.has('n')){
+        if (params.has('n')) {
             n = params.get('n');
         }
         init(parseInt(n));
@@ -30,9 +33,9 @@
             e.preventDefault();
             dump();
         })
-        $(document).on('keydown', function(e){
-            i = [37, 40 ,39].indexOf(e.keyCode);
-            if (i == -1)i = [74, 75 ,76].indexOf(e.keyCode);
+        $(document).on('keydown', function (e) {
+            i = [37, 40, 39].indexOf(e.keyCode);
+            if (i == -1) i = [74, 75, 76].indexOf(e.keyCode);
             if (i != -1) act(i);
         });
 
