@@ -25,14 +25,16 @@
         }
         init(parseInt(n));
         dump();
-        $('.tower').on('touchstart', function () {
-            if (moves == 0) t0 = performance.now();
-            if (hand == null)
-                lift(parseInt($(this).attr('data-i')));
-            else
-                drop(parseInt($(this).attr('data-i')));
+        $('.tower').on('touchstart mousedown', function (e) {
+            act(parseInt($(this).attr('data-i')));
+            e.preventDefault();
             dump();
-            checkWin();
         })
+        $(document).on('keydown', function(e){
+            i = [37, 40 ,39].indexOf(e.keyCode);
+            if (i == -1)i = [74, 75 ,76].indexOf(e.keyCode);
+            if (i != -1) act(i);
+        });
+
     });
 </script>
