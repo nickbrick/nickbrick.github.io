@@ -20,10 +20,14 @@
 <script>
     $(function () {
         n = 5;
+        mode = 0;
         moves = 0;
         const params = new URLSearchParams(window.location.search);
         if (params.has('n')) {
             n = params.get('n');
+        }
+        if (params.has('mode')) {
+            mode = params.get('mode');
         }
         init(parseInt(n));
         //dump();

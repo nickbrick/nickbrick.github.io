@@ -18,8 +18,8 @@ init = function (n) {
     towers = [[...Array(n).keys()].reverse(), [], []];
     hand = null;
     for (let i = 0; i < n; i++) {
-        width = n > 10 ? (i+1)*100/n : (i+1)*10;
-        getTower(0).append(`<div data-r="${i}" class="disc" style="width:${width}%;">${i}</div>`);
+        width = n > 10 ? (i + 1) * 100 / n : (i + 1) * 10;
+        getTower(0).append(`<div data-r="${i}" class="disc ${mode==1?"print":""}" style="width:${width}%;">${i}</div>`);
     }
 }
 
@@ -34,7 +34,7 @@ lift = function (i) {
 
 drop = function (i) {
     if (hand != null)
-        if (towers[i][towers[i].length - 1] > hand || towers[i].length == 0) {
+        if (validateDrop(i, hand)) {
             towers[i].push(hand);
             disc = getDisc(hand).detach();
             getTower(i).prepend(disc);
@@ -43,6 +43,7 @@ drop = function (i) {
             moves++;
         }
 }
+
 
 act = function (i) {
     if (moves == 0) t0 = performance.now();
@@ -57,8 +58,18 @@ checkWin = function () {
     if ((towers[1].length == n) || (towers[2].length == n)) {
         t1 = performance.now();
         setTimeout(() => {
-            alert(`Win. Moves: ${moves}/${2 ** n - 1} Time: ${Math.round((t1 - t0)) / 1000} s`);
+            alert(`Win. Moves: ${moves}/${minMoves(parseInt(n), mode)} Time: ${Math.round((t1 - t0)) / 1000} s`);
             window.location = window.location;
         }, 10);
     }
+}
+
+validateDrop = function (i, hand) {
+    if (mode == 0) return (towers[i][towers[i].length - 1] > hand || towers[i].length == 0);
+    if (mode == 1) return [...towers[i], hand].reverse().map((x, i) => x >= i).every(x => x == true);
+}
+
+minMoves = function (n, mode) {
+    if (mode == 0) return 2 ** n - 1;
+    if (mode == 1) return n > 2 ? minMoves(n-2, 1)*3+4 : n == 2 ? 3 : 1;
 }
