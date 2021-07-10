@@ -43,7 +43,7 @@
       special = getSpecial(n);
       if (special == null) return `https://www.bgreco.net/garfield/panel.gif?urldate=${d}&frame=${n}`;
       if (special == 'blender') return 'https://www.bgreco.net/garfield/panel.gif?urldate=080426&frame=0';
-      return `https://www.bgreco.net/garfield/panel.gif?urldate=${special}&frame=0`;
+      return `https://www.bgreco.net/garfield/panel.gif?urldate=${special}&frame=${n}`;
     }
     window.onload = function () {
       randomUrl1 = `https://www.bgreco.net/garfield/panel.gif?urldate=${randomStrip()}&frame=0`;
