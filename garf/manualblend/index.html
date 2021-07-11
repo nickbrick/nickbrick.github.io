@@ -38,6 +38,7 @@
     getDate = function () {
       urlParams = new URLSearchParams(window.location.search);
       date = urlParams.get('d');
+      if (date == "random") date = commonRandom;
       return date;
     }
     getSpecial = function (n){
@@ -80,7 +81,7 @@
       setPanel(d, n0, n1);
     }
     window.onload = function () {
-
+      commonRandom = randomDate();
       resolvePanel(0);
       resolvePanel(1);
       resolvePanel(2);
