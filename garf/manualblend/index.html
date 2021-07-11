@@ -1,10 +1,18 @@
 <head>
   <style>
     .panel {
-      width: 300px;
-      height: 300px;
-      background-size: contain;
-      background-repeat: no-repeat;
+      width: 250px;
+      height: 216px;
+      object-fit: cover;
+    }
+    .left {
+      object-position: -1%;
+    }
+    .middle {
+      object-position: unset;
+    }
+    .right {
+      object-position: 102%;
     }
 
     .strip {
@@ -15,14 +23,12 @@
 
 <body id="body">
   <div class="strip">
-    <div class="panel" id="panel1">
-    </div>
-    <div class="panel" id="panel2">
-    </div>
-    <div class="panel" id="panel3"></div>
+    <img class="panel" id="panel0"></img>
+    <img class="panel" id="panel1"></img>
+    <img class="panel" id="panel2"></img>
   </div>
   <script>
-    randomStrip = function () {
+    randomDate = function () {
       do {
         var date = new Date(+Date.parse("1978-06-19") + Math.random() * (Date.now() - Date.parse("1978-06-19")));
       } while (date.getDay() == 0);
@@ -39,19 +45,46 @@
       p = urlParams.get(`p${n}`);
       return p;
     }
-    getStripUrl = function (d, n) {
-      special = getSpecial(n);
-      if (special == null) return `https://www.bgreco.net/garfield/panel.gif?urldate=${d}&frame=${n}`;
-      if (special == 'blender') return 'https://www.bgreco.net/garfield/panel.gif?urldate=080426&frame=0';
-      return `https://www.bgreco.net/garfield/panel.gif?urldate=${special}&frame=${n}`;
+    setPanel = function(d, n0, n1){
+      ar = d.slice(0,2);
+      if (ar < 78) year = "20"+ar; else year = "19" + ar;
+      document.getElementById(`panel${n1}`).src = `http://picayune.uclick.com/comics/ga/${year}/ga${d}.gif`;
+      if (n0 == 0) document.getElementById(`panel${n1}`).classList.add("left");
+      if (n0 == 1) document.getElementById(`panel${n1}`).classList.add("middle");
+      if (n0 == 2) document.getElementById(`panel${n1}`).classList.add("right");
+    }
+    resolvePanel = function(n1){
+      special = getSpecial(n1);
+      if (special == null) {
+        n0 = n1;
+        d = getDate();
+      }
+      else if (special == 'random'){
+        n0 = n1;
+        d = randomDate();
+      }
+      else if (special == 'superrandom'){
+        n0 = Math.floor(Math.random()*4);
+        d = randomDate();
+      }
+      else if (special == 'blender'){
+        n0 = 0;
+        d = '080426';
+      }
+      else{
+        n0 = special.split('-')[1];
+        if (n0 == undefined) n0 = n1;
+        d = special.split('-')[0];
+      }
+
+      setPanel(d, n0, n1);
     }
     window.onload = function () {
-      randomUrl1 = `https://www.bgreco.net/garfield/panel.gif?urldate=${randomStrip()}&frame=0`;
-      randomUrl2 = `https://www.bgreco.net/garfield/panel.gif?urldate=${randomStrip()}&frame=1`;
-      randomUrl3 = `https://www.bgreco.net/garfield/panel.gif?urldate=${randomStrip()}&frame=2`;
-      document.getElementById("panel1").style = `background-image: url(${getStripUrl(getDate(),0)})`;
-      document.getElementById("panel2").style = `background-image: url(${getStripUrl(getDate(),1)})`;
-      document.getElementById("panel3").style = `background-image: url(${getStripUrl(getDate(),2)})`;
+
+      resolvePanel(0);
+      resolvePanel(1);
+      resolvePanel(2);
+
     }
   </script>
 </body>
