@@ -5,7 +5,12 @@
       height: 216px;
       object-fit: cover;
     }
-
+    .panel-container {
+      overflow: hidden;
+    }
+    .panel-container:hover .toolbar {
+      display: block;
+    }
     .left {
       object-position: -1%;
     }
@@ -18,8 +23,18 @@
       object-position: 102%;
     }
 
+    .yeet {
+      object-position: -145px -73px;
+      transform: scale(3.3);
+    }
+
     .strip {
       display: flex;
+    }
+
+    .toolbar {
+      display: none;
+      margin: 20px;
     }
   </style>
 </head>
@@ -27,27 +42,59 @@
 <body id="body">
   <div class="strip">
     <div class="panel-container">
-      <a id="link0" target="_blank"><img class="panel" id="panel0"></img></a>
+      <a id="link0" target="_blank">
+        <div style="overflow: hidden;"><img class="panel" id="panel0"></img></div>
+      </a>
       <div class="toolbar">
-        <a onclick="roll(0);">Roll</a>
-        <a onclick="hold(0);">Hold</a>
-        <a onclick="hot(0,'blender');">Blender</a>
+        <a href="#" onclick="unhold(0);">Unhold</a>
+        <a href="#" onclick="roll(0);">Roll</a>
+        <a href="#" onclick="megaroll(0);">Megaroll</a>
+        <a href="#" onclick="hold(0);">Hold</a>
+        <ul>
+          <li><a href="#" onclick="hot(0,'blender');">Blender</a></li>
+          <li><a href="#" onclick="hot(0,'nature');">Graphic nature</a></li>
+          <li><a href="#" onclick="hot(0,'nopics');">No pictures</a></li>
+          <li><a href="#" onclick="hot(0,'five');">Five minutes later</a></li>
+          <li><a href="#" onclick="hot(0,'dead');">Dead</a></li>
+          <li><a href="#" onclick="hot(0,'concern');">Concern</a></li>
+          <li><a href="#" onclick="hot(0,'yeet');">Yeet</a></li>
+        </ul>
       </div>
     </div>
     <div class="panel-container">
-      <a id="link1" target="_blank"><img class="panel" id="panel1"></img></a>
+      <a id="link1" target="_blank">
+        <div style="overflow: hidden;"><img class="panel" id="panel1"></img></div>
+      </a>
       <div class="toolbar">
         <a onclick="roll(1);">Roll</a>
         <a onclick="hold(1);">Hold</a>
-        <a onclick="hot(1,'blender');">Blender</a>
+        <ul>
+          <li><a href="#" onclick="hot(1,'blender');">Blender</a></li>
+          <li><a href="#" onclick="hot(1,'nature');">Graphic nature</a></li>
+          <li><a href="#" onclick="hot(1,'nopics');">No pictures</a></li>
+          <li><a href="#" onclick="hot(1,'five');">Five minutes later</a></li>
+          <li><a href="#" onclick="hot(1,'dead');">Dead</a></li>
+          <li><a href="#" onclick="hot(1,'concern');">Concern</a></li>
+          <li><a href="#" onclick="hot(1,'yeet');">Yeet</a></li>
+        </ul>
       </div>
     </div>
     <div class="panel-container">
-      <a id="link2" target="_blank"><img class="panel" id="panel2"></img></a>
+      <a id="link2" target="_blank">
+        <div style="overflow: hidden;"><img class="panel" id="panel2"></img></div>
+      </a>
       <div class="toolbar">
         <a onclick="roll(2);">Roll</a>
         <a onclick="hold(2);">Hold</a>
-        <a onclick="hot(2,'blender');">Blender</a>
+        <ul>
+          <li><a href="#" onclick="hot(2,'blender');">Blender</a></li>
+          <li><a href="#" onclick="hot(2,'nature');">Graphic nature</a></li>
+          <li><a href="#" onclick="hot(2,'nopics');">No pictures</a></li>
+          <li><a href="#" onclick="hot(2,'five');">Five minutes later</a></li>
+          <li><a href="#" onclick="hot(2,'dead');">Dead</a></li>
+          <li><a href="#" onclick="hot(2,'concern');">Concern</a></li>
+          <li><a href="#" onclick="hot(2,'yeet');">Yeet</a></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -82,6 +129,7 @@
       if (n0 == 2) document.getElementById(`panel${n1}`).classList.add("right");
     }
     resolvePanel = function (n1) {
+      document.getElementById(`panel${n1}`).classList.remove('yeet');
       special = getSpecial(n1);
       if (special == null) {
         n0 = n1;
@@ -99,6 +147,31 @@
       else if (special == 'blender') {
         n0 = 0;
         d = '080426';
+      }
+      else if (special == 'nature') {
+        n0 = 1;
+        d = '050430';
+      }
+      else if (special == 'nopics') {
+        n0 = 2;
+        d = '061021';
+      }
+      else if (special == 'five') {
+        n0 = 1;
+        d = '151221';
+      }
+      else if (special == 'dead') {
+        n0 = 0;
+        d = '130408';
+      }
+      else if (special == 'concern') {
+        n0 = 1;
+        d = '991211';
+      }
+      else if (special == 'yeet') {
+        n0 = 2;
+        d = '810329';
+        document.getElementById(`panel${n1}`).classList.add('yeet');
       }
       else {
         n0 = special.split('-')[1];
@@ -140,10 +213,21 @@
     generateLink = function () {
       document.getElementById('permalink').href = getPermalinkUrl();
     }
+    unhold = function (n) {
+      url = window.location.href;
+      url = removeParam(`p${n}`, url);
+      window.location.href = url;
+    }
     roll = function (n) {
       url = window.location.href;
       url = removeParam(`p${n}`, url);
       url += `&p${n}=random`;
+      window.location.href = url;
+    }
+    megaroll = function (n) {
+      url = window.location.href;
+      url = removeParam(`p${n}`, url);
+      url += `&p${n}=megarandom`;
       window.location.href = url;
     }
     hold = function (n) {
