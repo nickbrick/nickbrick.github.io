@@ -5,12 +5,15 @@
       height: 216px;
       object-fit: cover;
     }
+
     .panel-container {
       overflow: hidden;
     }
+
     .panel-container:hover .toolbar {
       display: block;
     }
+
     .left {
       object-position: -1%;
     }
@@ -30,26 +33,43 @@
 
     .strip {
       display: flex;
+      width: fit-content;
     }
 
     .toolbar {
       display: none;
       margin: 20px;
     }
+
+    a,
+    a:visited {
+      color: unset;
+    }
+
+    .linkbar {
+      margin: 10px;
+    }
   </style>
 </head>
 
 <body id="body">
+  <div class="linkbar">
+    <a id="permalink">Link to strip</a>
+    <a href="?d=random">Random</a>
+    <a href="?d=random&p0=random&p1=random&p2=random">Megarandom</a>
+    <a href="?d=random&p0=megarandom&p1=megarandom&p2=megarandom">Omegarandom</a>
+    <a href="">Refresh</a>
+  </div>
   <div class="strip">
     <div class="panel-container">
       <a id="link0" target="_blank">
         <div style="overflow: hidden;"><img class="panel" id="panel0"></img></div>
       </a>
       <div class="toolbar">
+        <a href="#" onclick="hold(0);">Hold</a>
         <a href="#" onclick="unhold(0);">Unhold</a>
         <a href="#" onclick="roll(0);">Roll</a>
         <a href="#" onclick="megaroll(0);">Megaroll</a>
-        <a href="#" onclick="hold(0);">Hold</a>
         <ul>
           <li><a href="#" onclick="hot(0,'blender');">Blender</a></li>
           <li><a href="#" onclick="hot(0,'nature');">Graphic nature</a></li>
@@ -66,10 +86,10 @@
         <div style="overflow: hidden;"><img class="panel" id="panel1"></img></div>
       </a>
       <div class="toolbar">
+        <a href="#" onclick="hold(1);">Hold</a>
         <a href="#" onclick="unhold(1);">Unhold</a>
         <a href="#" onclick="roll(1);">Roll</a>
         <a href="#" onclick="megaroll(1);">Megaroll</a>
-        <a href="#" onclick="hold(1);">Hold</a>
         <ul>
           <li><a href="#" onclick="hot(1,'blender');">Blender</a></li>
           <li><a href="#" onclick="hot(1,'nature');">Graphic nature</a></li>
@@ -86,10 +106,10 @@
         <div style="overflow: hidden;"><img class="panel" id="panel2"></img></div>
       </a>
       <div class="toolbar">
+        <a href="#" onclick="hold(2);">Hold</a>
         <a href="#" onclick="unhold(2);">Unhold</a>
         <a href="#" onclick="roll(2);">Roll</a>
         <a href="#" onclick="megaroll(2);">Megaroll</a>
-        <a href="#" onclick="hold(2);">Hold</a>
         <ul>
           <li><a href="#" onclick="hot(2,'blender');">Blender</a></li>
           <li><a href="#" onclick="hot(2,'nature');">Graphic nature</a></li>
@@ -102,10 +122,6 @@
       </div>
     </div>
   </div>
-  <a id="permalink">Link to strip</a>
-  <a href="?d=random">Random</a>
-  <a href="?d=random&p0=random&p1=random&p2=random">Megarandom</a>
-  <a href="?d=random&p0=megarandom&p1=megarandom&p2=megarandom">Omegarandom</a>
   <script>
     randomDate = function () {
       do {
