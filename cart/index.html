@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="easystar.js"></script>
+    <script src="phaser.js"></script>
+    <script src="assets/1shelves.js"></script>
+</head>
+
+<body>
+
+    <script>
+        var gameSettings = {
+            width: 576,
+            height: 396,
+            step: 2.0,
+            startTileX: 1,
+            startTileY: 19,
+            tileSize: 18
+        }
+        var config = {
+            type: Phaser.AUTO,
+            width: gameSettings.width,
+            height: gameSettings.height,
+            physics: {
+                default: 'matter',
+                matter: {
+                    debug: true,
+                    gravity: { y: 0 }
+
+                }
+            },
+            scene: {
+                key: 'main',
+                preload: preload,
+                create: create,
+                update: update
+            },
+            audio: {
+                disableWebAudio: true
+            },
+            pixelArt: true,
+            zoom: 2,
+        };
+
+        var game = new Phaser.Game(config);
+
+        var groundLayer;
+        var waypoints = [];
+        var vision;// = this.make.graphics();
+
+        function preload() {
+            this.load.image('levelImage', 'assets/tileset2.png');
+            this.load.image('itemsImage', 'assets/items.png');
+            this.load.tilemapTiledJSON('map', 'assets/1.json');
+            this.load.image('floor', 'assets/floor.png');
+            this.load.image('level', 'assets/1.png');
+            this.load.image('wall', 'assets/wall.png');
+            this.load.image('star', 'assets/star.png');
+            this.load.image('bomb', 'assets/bomb.png');
+            this.load.spritesheet('dude',
+                'assets/cartman.png',
+                { frameWidth: 120, frameHeight: 120 }
+            );
+            this.load.audioSprite('sfx', 'assets/fx_mixdown.json', [
+                'assets/fx_mixdown.ogg',
+                'assets/fx_mixdown.mp3'
+            ]);
+
+            this.finder = new EasyStar.js();
+
+        }
+        function create() {
+            // this.add.image(576, 396, 'floor');
+            const map = this.make.tilemap({ key: 'map' });
+
+            var tileset = map.addTilesetImage('level', 'levelImage');
+            floor = map.createStaticLayer('Floor', tileset, 0, 0);
+            platforms = map.createStaticLayer('Tile Layer 1', tileset, 0, 0);
+            platforms.setCollisionByExclusion(-1, true);
+            var tilesetItems = map.addTilesetImage('items', 'itemsImage');
+            items = map.createStaticLayer('Items', tilesetItems, 0, 0);
+
+            const rt = this.make.renderTexture({
+                width: gameSettings.width,
+                height: gameSettings.height
+            }, true)
+
+            rt.draw(floor).draw(platforms)
+
+            vision = this.make.graphics();
+            vision.fillStyle(0xffffff);
+            vision.fillPoint(0, 0, gameSettings.tileSize * 4 - 2);
+
+            rt.mask = vision.createGeometryMask();
+            rt.mask.invertAlpha = true
+
+
+            // this.input.on('pointermove', function (pointer) {
+            //     vision.x = pointer.x;
+            //     vision.y = pointer.y;
+            // });
+
+            var bodies = Phaser.Physics.Matter.Matter.Bodies;
+
+            var cartBody = bodies.circle(0, 0, gameSettings.tileSize - 2, { isSensor: true});
+            var circleA = bodies.circle(-gameSettings.tileSize, 0, 4, { isSensor: true, label: 'west' });
+            var circleB = bodies.circle(gameSettings.tileSize, 0, 4, { isSensor: true, label: 'east' });
+            var circleC = bodies.circle(0, -gameSettings.tileSize, 4, { isSensor: true, label: 'north' });
+            var circleD = bodies.circle(0, gameSettings.tileSize, 4, { isSensor: true, label: 'south' });
+
+            var compoundBody = Phaser.Physics.Matter.Matter.Body.create({
+                parts: [cartBody, circleA, circleB, circleC, circleD],
+                inertia: 0
+            });
+
+            player = this.matter.add.sprite(0, 0, 'dude').setScale(64 / 120);
+            player.setExistingBody(compoundBody);
+            player.setPosition(gameSettings.startTileX * gameSettings.tileSize, gameSettings.startTileY * gameSettings.tileSize);
+            player.body.collisionFilter.category = 2;
+
+            this.matter.world.convertTilemapLayer(platforms, { friction: 0, frictionStatic: 0 });
+            player.setFixedRotation(true);
+            player.setFriction(0);
+            target = floor.getTileAtWorldXY(player.x, player.y);
+
+            getRelativePosition = function (player, shelf) {
+                shelfWidth = shelf.bounds.max.x - shelf.bounds.min.x;
+                shelfHeight = shelf.bounds.max.y - shelf.bounds.min.y;
+                if (shelfWidth > shelfHeight) {
+                    return (player.position.x - shelf.bounds.min.x) / shelfWidth;
+                }
+                else {
+                    return (player.position.y - shelf.bounds.min.y) / shelfHeight;
+                }
+            }
+            this.matter.world.on('collisionactive', function (event) {
+                var pairs = event.pairs;
+
+                for (var i = 0; i < pairs.length; i++) {
+                    var bodyA = pairs[i].bodyA;
+                    var bodyB = pairs[i].bodyB;
+
+                    //  We only want sensor collisions
+                    if (pairs[i].isSensor) {
+                        var blockBody;
+                        var playerBody;
+
+                        if (bodyA.isSensor) {
+                            blockBody = bodyB;
+                            playerBody = bodyA;
+                        }
+                        else if (bodyB.isSensor) {
+                            blockBody = bodyA;
+                            playerBody = bodyB;
+                        }
+                        if (blockBody.collisionFilter.category == 4) { //shelf
+                            relativePosition = getRelativePosition(playerBody, blockBody);
+                        }
+
+                    }
+                }
+            });
+            this.matter.world.on('collisionstart', function (event) {
+                var pairs = event.pairs;
+
+                for (var i = 0; i < pairs.length; i++) {
+                    var bodyA = pairs[i].bodyA;
+                    var bodyB = pairs[i].bodyB;
+
+                    //  We only want sensor collisions
+                    if (pairs[i].isSensor) {
+                        var blockBody;
+                        var playerBody;
+
+                        if (bodyA.isSensor) {
+                            blockBody = bodyB;
+                            playerBody = bodyA;
+                        }
+                        else if (bodyB.isSensor) {
+                            blockBody = bodyA;
+                            playerBody = bodyB;
+                        }
+                        // console.log(blockBody);
+
+                    }
+                }
+            });
+
+            var grid = [];
+            for (var y = 0; y < platforms.tilemap.height; y++) {
+                var col = [];
+                for (var x = 0; x < platforms.tilemap.width; x++) {
+                    // In each cell we store the ID of the tile, which corresponds
+                    // to its index in the tileset of the map ("ID" field in Tiled)
+                    col.push(platforms.getTileAt(x, y)?.index ?? 0);
+                }
+                grid.push(col);
+            }
+            this.finder.setGrid(grid);
+            this.finder.setAcceptableTiles([0]);
+            var shelfBodies = []
+            shelvesJson.forEach(function (shelf) {
+                shelfBody = bodies.rectangle(
+                    (floor.tileToWorldX(shelf.to.x + 1) + floor.tileToWorldX(shelf.from.x)) / 2,
+                    (floor.tileToWorldY(shelf.to.y + 0) + floor.tileToWorldY(shelf.from.y + 1)) / 2,
+                    floor.tileToWorldX(shelf.to.x + 1) - floor.tileToWorldX(shelf.from.x),
+                    floor.tileToWorldY(shelf.to.y + 1) - floor.tileToWorldY(shelf.from.y));
+                // shelfbody.isSensor = true;
+                shelfBody.isStatic = true;
+                shelfBody.collisionFilter.category = 4;
+                shelfBody.collisionFilter.mask = 4294967295 - 1;
+                shelfBodies.push(shelfBody);
+            });
+            this.matter.world.add(shelfBodies);
+            // var test = shelvesJson[1];
+            // testbody = bodies.rectangle(
+            //     (floor.tileToWorldX(test.to.x + 1) + floor.tileToWorldX(test.from.x)) / 2,
+            //     (floor.tileToWorldY(test.to.y + 0) + floor.tileToWorldY(test.from.y + 1)) / 2,
+            //     floor.tileToWorldX(test.to.x + 1) - floor.tileToWorldX(test.from.x),
+            //     floor.tileToWorldY(test.to.y + 1) - floor.tileToWorldY(test.from.y));
+            // // testbody.isSensor = true;
+            // testbody.isStatic = true;
+            // testbody.collisionFilter.category = 4;
+            // testbody.collisionFilter.mask = 4294967295 - 1;
+            // this.matter.world.add(testbody);
+
+            this.input.on('pointerdown', function (pointer) {
+                fromTile = floor.getTileAtWorldXY(player.x, player.y);
+                fromX = fromTile.x;
+                fromY = fromTile.y;
+
+                toTile = floor.getTileAtWorldXY(pointer.x, pointer.y);
+                toX = toTile.x;
+                toY = toTile.y;
+
+                this.finder.findPath(fromX, fromY, toX, toY, function (path) {
+                    if (path === null) {
+                        console.warn("Path was not found.");
+                    } else {
+                        //path.push({ x: toTile.x, y: toTile.y });
+                        var firstStep;
+                        if (waypoints.length > 0) {
+                            firstStep = target;
+                        }
+                        waypoints = path.map(function (t) { return { x: floor.tileToWorldX(t.x - t.x % 2 + 1), y: floor.tileToWorldY(t.y - t.y % 2 + 1) } });
+                        waypoints = [].concat(waypoints.filter(function (p, i) { return i > 0 && (p.x != waypoints[i - 1].x || p.y != waypoints[i - 1].y) }))
+                        if (firstStep) {
+                            waypoints.unshift(firstStep);
+                        }
+                        waypoints.push({ x: floor.tileToWorldX(toTile.x - toTile.x % 2 + 1), y: floor.tileToWorldY(toTile.y - toTile.y % 2 + 1) });
+                        if (!firstStep) {
+                            target = waypoints.shift();
+                        } else {
+                            target = firstStep;
+                        }
+                        a = 1;
+                        //console.log(waypoints.map(x=>x));
+                    }
+                });
+                this.finder.calculate();
+                console.log(`tile: ${toTile.x}, ${toTile.y}`);
+            }, this);
+
+            this.input.on('pointermove', function (pointer) {
+                mouseX = pointer.x;
+                mouseY = pointer.y;
+            }, this);
+
+            this.anims.create({
+                key: 'left',
+                frames: this.anims.generateFrameNumbers('dude', { start: 4, end: 7 }),
+                frameRate: 10,
+                repeat: -1
+            });
+            this.anims.create({
+                key: 'right',
+                frames: this.anims.generateFrameNumbers('dude', { start: 12, end: 15 }),
+                frameRate: 10,
+                repeat: -1
+            });
+            this.anims.create({
+                key: 'down',
+                frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+                frameRate: 10,
+                repeat: -1
+            });
+            this.anims.create({
+                key: 'up',
+                frames: this.anims.generateFrameNumbers('dude', { start: 8, end: 11 }),
+                frameRate: 10,
+                repeat: -1
+            });
+            cursors = this.input.keyboard.createCursorKeys();
+        }
+
+        function update() {
+
+            vision.x = player.x;
+            vision.y = player.y;
+
+            if (waypoints.length > 0) {
+                diffX = target.x - player.x;
+                diffY = target.y - player.y;
+                if (Math.abs(diffX) <  gameSettings.step &&
+                    Math.abs(diffY) <  gameSettings.step) {
+                    player.setPosition(target.x, target.y);
+                    target = waypoints.shift();
+                    diffX = target.x - player.x;
+                    diffY = target.y - player.y;
+                    player.anims.stop();
+                }
+                if (diffX >= gameSettings.step) {
+                    //player.setVelocityX(3);
+                    player.setPosition(player.x + gameSettings.step, player.y);
+                    player.setOrigin(1 - 0.3, 0.5);
+                    player.anims.play('right', true);
+                }
+
+                else if (diffX <= -gameSettings.step) {
+                    //player.setVelocityX(-3);
+                    player.setPosition(player.x - gameSettings.step, player.y);
+                    player.setOrigin(0.3, 0.5);
+
+                    player.anims.play('left', true);
+                }
+
+                else if (diffY >= gameSettings.step) {
+                    //player.setVelocityY(3);
+                    player.setPosition(player.x, player.y + gameSettings.step);
+                    player.setOrigin(0.5, 1 - 0.3);
+
+                    player.anims.play('down', true);
+                }
+                else if (diffY <= -gameSettings.step) {
+                    //player.setVelocityY(-3);
+                    player.setPosition(player.x, player.y - gameSettings.step);
+                    player.setOrigin(0.5, 0.3);
+
+                    player.anims.play('up', true);
+                }
+
+            }
+            else {
+                player.anims.stop();
+            }
+
+
+        }
+    </script>
+
+</body>
+
+</html>
