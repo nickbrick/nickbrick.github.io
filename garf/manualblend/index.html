@@ -31,6 +31,11 @@
       transform: scale(3.3);
     }
 
+    .observe {
+      object-position: 81px -73px;
+      transform: scale(3.3);
+    }
+
     .strip {
       display: flex;
       width: fit-content;
@@ -78,6 +83,7 @@
           <li><a href="#" onclick="hot(0,'dead');">Dead</a></li>
           <li><a href="#" onclick="hot(0,'concern');">Concern</a></li>
           <li><a href="#" onclick="hot(0,'yeet');">Yeet</a></li>
+          <li><a href="#" onclick="hot(0,'observe');">Observe</a></li>
         </ul>
       </div>
     </div>
@@ -98,6 +104,7 @@
           <li><a href="#" onclick="hot(1,'dead');">Dead</a></li>
           <li><a href="#" onclick="hot(1,'concern');">Concern</a></li>
           <li><a href="#" onclick="hot(1,'yeet');">Yeet</a></li>
+          <li><a href="#" onclick="hot(1,'observe');">Observe</a></li>
         </ul>
       </div>
     </div>
@@ -118,6 +125,7 @@
           <li><a href="#" onclick="hot(2,'dead');">Dead</a></li>
           <li><a href="#" onclick="hot(2,'concern');">Concern</a></li>
           <li><a href="#" onclick="hot(2,'yeet');">Yeet</a></li>
+          <li><a href="#" onclick="hot(2,'observe');">Observe</a></li>
         </ul>
       </div>
     </div>
@@ -138,10 +146,11 @@
       p = urlParams.get(`p${n}`);
       return p;
     }
-    setPanel = function (d, n0, n1) {
+    setPanel = function (d, n0, n1, ext) {
       ar = d.slice(0, 2);
       if (ar < 78) year = "20" + ar; else year = "19" + ar;
-      url = `http://picayune.uclick.com/comics/ga/${year}/ga${d}.gif`;
+      if (!ext) ext = 'gif';
+      url = `http://picayune.uclick.com/comics/ga/${year}/ga${d}.${ext}`;
       document.getElementById(`panel${n1}`).src = url;
       document.getElementById(`link${n1}`).href = url;
       if (n0 == 0) document.getElementById(`panel${n1}`).classList.add("left");
@@ -193,13 +202,19 @@
         d = '810329';
         document.getElementById(`panel${n1}`).classList.add('yeet');
       }
+      else if (special == 'observe') {
+        n0 = 2;
+        d = '230423';
+        document.getElementById(`panel${n1}`).classList.add('observe');
+        var ext = 'jpg';
+      }
       else {
         n0 = special.split('-')[1];
         if (n0 == undefined) n0 = n1;
         d = special.split('-')[0];
       }
 
-      setPanel(d, n0, n1);
+      setPanel(d, n0, n1, ext);
     }
     removeParam = function (key, sourceURL) {
       // sourceURL = window.location;
