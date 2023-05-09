@@ -1,0 +1,5 @@
+<i>Lucky Hit is a pachinko-style game that can be found in Shenmue&nbsp;II and Shenmue&nbsp;III, in which you place a wager, drop a number of balls, and win various money or prizes depending on the pocket it lands in. Each board has its rules, stake, and odds prominently displayed next to it.</i> -&nbsp;<a target="_blank" href="https://gambling-in-games.fandom.com/wiki/Shenmue/Lucky_Hit">Gambling&nbsp;in&nbsp;games&nbsp;wiki</a>
+<br>
+And this is a physics simulation of one Lucky&nbsp;Hit board in Shenmue&nbsp;II.
+To achieve this result, I screencapped some footage of the game being played and stiched the frames by aligning the backboard. Because the pin heads are still distorted by parallax, each frame is simply scaled down until the pin heads match their actual position on the board, giving us an orthographic projection which, after some simple filtering, is easily digitized automatically by appropriate software. The resulting coordinates are fed into a box2d simluation that repeats the game and, given enough time, generates some nice statistics and visuals.
+<a target="_blank" href="content/pachinko/pachinko.png"><img src="content/pachinko/pachinko.jpg"></a>
