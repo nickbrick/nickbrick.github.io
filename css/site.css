@@ -7,6 +7,7 @@
     --my-sec-color-raw: 33, 37, 41;
     --my-sec-color: rgb(var(--my-sec-color-raw));
     --my-border-width: 2px;
+    --my-scrollbar-width: 10px;
 }
 
 * {
@@ -38,7 +39,15 @@ html {
     position: relative;
     min-height: 100%;
 }
-
+/*#ruler{
+    width:10px;
+    position:static;
+}
+#ruler .yardstick{
+    height: 100vh;
+    background-color: red;
+    outline:black 2px solid;
+}*/
 header {
     background-color: rgba(var(--my-sec-color-raw), var(--my-opacity-hi));
     padding: 1ex 1em 0;
@@ -46,6 +55,10 @@ header {
     border-bottom: var(--my-border-width) solid;
     display: flex;
     align-items: center;
+}
+
+header *:hover{
+    color:white;
 }
 
 @media only screen and (max-width: 768px) {
@@ -88,7 +101,7 @@ body {
     overflow: hidden;
 }
 
-#video-bg {
+video {
     /*filter: contrast(0.3) brightness(0.3);*/
     filter: blur(1px);
     width: 100%;
@@ -106,7 +119,7 @@ body {
 #scroll-container {
     padding: 0 8px 8px;
     overflow-y: auto;
-    width: calc(100% - 10px);
+    width: calc(100% - var(--my-scrollbar-width));
 }
 
 ::-webkit-scrollbar {
@@ -135,6 +148,9 @@ body {
     padding-bottom: 10ex;
 }
 
+section {
+    margin-bottom: 166px;
+}
 .separator {
     display: flex;
     align-items: center;
@@ -161,7 +177,7 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
-    margin: 20px 0 166px 0;
+    margin: 20px 0;
 }
 
     .grid-container.single {
@@ -292,6 +308,7 @@ body {
     height: 100%+1px;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
+    padding-right: var(--my-scrollbar-width);
 }
 
 .modal-content {

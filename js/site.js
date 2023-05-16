@@ -33,7 +33,8 @@ function scrollToSection(selector) {
 }
 
 $("#scroll-container").scroll(function () {
-    $("#video-bg")[0].currentTime = $("#video-bg")[0].duration * getScrollFraction("#scroll-container") * 0.7;
+    //$("#video-bg")[0].currentTime = $("#video-bg")[0].duration * getScrollFraction("#scroll-container") * 0.7;
+
 });
 
 $(function () {
@@ -43,3 +44,36 @@ $(function () {
         aa[i].setAttribute("href", "mailto:" + atob(m));
     };
 });
+
+var lastObserver, projectsObserver, ideasObserver;
+$(function () {
+    let options = {
+        root: null,
+        rootMargin: "-25% 0px -65%",
+        threshold: 0.01,
+    };
+    projectsObserver = new IntersectionObserver(handleIntersect, options);
+    ideasObserver = new IntersectionObserver(handleIntersect, options);
+    projectsObserver.id = "#projects";
+    ideasObserver.id = "#ideas";
+    projectsObserver.observe($("#projects")[0]);
+    ideasObserver.observe($("#ideas")[0]);
+    lastObserver = projectsObserver.id;
+});
+
+function handleIntersect(entries, observer) {
+    if (!entries[0].isIntersecting) return;
+    if (lastObserver != observer.id) {
+        let videoId;
+        if (observer.id == "#projects") {
+            videoId = "#video-up";
+            $("#video-down").hide();
+        }
+        else if (observer.id == "#ideas") {
+            videoId = "#video-down";
+            $("#video-down").show();
+        }
+        $(videoId)[0].play();
+    lastObserver = observer.id;
+    }
+}
