@@ -72,6 +72,7 @@ nav {
 
     nav h1, nav h2, nav h3, nav h4, nav h5, nav h6 {
         cursor: pointer;
+        font-size:large;
     }
 
     nav div {
