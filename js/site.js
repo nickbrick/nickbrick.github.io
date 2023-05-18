@@ -59,6 +59,19 @@ $(function () {
     projectsObserver.observe($("#projects")[0]);
     ideasObserver.observe($("#ideas")[0]);
     lastObserver = projectsObserver.id;
+
+    $("#video-down").on("ended", function () {
+        $("#video-down").hide();
+        window.setTimeout(function () {
+            $("#video-down").prop('currentTime', 0);
+        }, 100);
+    });
+    $("#video-up").on("ended", function () {
+        $("#video-down").show();
+        window.setTimeout(function () {
+            $("#video-up").prop('currentTime', 0);
+        }, 100);
+    });
 });
 
 function handleIntersect(entries, observer) {
@@ -73,7 +86,7 @@ function handleIntersect(entries, observer) {
             videoId = "#video-down";
             $("#video-down").show();
         }
-        $(videoId)[0].play();
-    lastObserver = observer.id;
+        $(videoId).trigger('play');
+        lastObserver = observer.id;
     }
 }
