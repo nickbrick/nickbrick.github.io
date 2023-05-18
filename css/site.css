@@ -1,9 +1,9 @@
 :root {
     --my-main-color-raw: 183, 157, 131;
     --my-main-color: rgb(var(--my-main-color-raw));
-    --my-opacity-low: 0.25;
-    --my-opacity-mid: 0.50;
-    --my-opacity-hi: 0.85;
+    --my-opacity-low: 0.80;
+    --my-opacity-mid: 0.95;
+    --my-opacity-hi: 0.99;
     --my-sec-color-raw: 33, 37, 41;
     --my-sec-color: rgb(var(--my-sec-color-raw));
     --my-border-width: 2px;
@@ -57,9 +57,9 @@ header {
     align-items: center;
 }
 
-header *:hover{
-    color:white;
-}
+    header *:hover {
+        color: white;
+    }
 
 @media only screen and (max-width: 768px) {
     header {
@@ -102,8 +102,7 @@ body {
 }
 
 video {
-    /*filter: contrast(0.3) brightness(0.3);*/
-    filter: blur(1px);
+    filter: blur(4px);
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -151,6 +150,7 @@ video {
 section {
     margin-bottom: 166px;
 }
+
 .separator {
     display: flex;
     align-items: center;
@@ -200,7 +200,7 @@ section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgba(var(--my-sec-color-raw), var(--my-opacity-low));
+    background-color: rgba(var(--my-sec-color-raw), var(--my-opacity-mid));
     padding: 20px;
     border-radius: 4px;
     border: solid var(--my-border-width);
@@ -237,7 +237,7 @@ section {
     .grid-item .buttons {
         display: flex;
         justify-content: center;
-        opacity: 0.5;
+        opacity: var(--my-opacity-low);
     }
 
     .grid-item.dotted {
