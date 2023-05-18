@@ -64,13 +64,13 @@ $(function () {
         $("#video-down").hide();
         window.setTimeout(function () {
             $("#video-down").prop('currentTime', 0);
-        }, 100);
+        }, 50);
     });
     $("#video-up").on("ended", function () {
         $("#video-down").show();
         window.setTimeout(function () {
             $("#video-up").prop('currentTime', 0);
-        }, 100);
+        }, 50);
     });
 });
 
