@@ -87,13 +87,19 @@ nav {
 body {
     margin-bottom: 60px;
     overflow: hidden;
+    background-color: var(--my-sec-color);
 }
 
-video {
+#video-down, #video-up, #video-fallback-up, #video-fallback-down {
     filter: blur(4px);
     width: 100%;
     height: 100%;
     object-fit: cover;
+    position: fixed;
+}
+
+#video-fallback-up, #video-fallback-down {
+    position: fixed;
 }
 
 #foreground {

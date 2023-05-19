@@ -81,10 +81,12 @@ function handleIntersect(entries, observer) {
         if (observer.id == "#projects") {
             videoId = "#video-up";
             $("#video-down").hide();
+            $("#video-fallback-up").show();
         }
         else if (observer.id == "#ideas") {
             videoId = "#video-down";
             $("#video-down").show();
+            $("#video-fallback-up").hide();
         }
         $(videoId).trigger('play');
         lastObserver = observer.id;
