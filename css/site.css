@@ -131,10 +131,6 @@ body {
         background: rgba(var(--my-main-color-raw), 1.0);
     }
 
-.blink {
-    animation: blink 2s steps(1, end) infinite both;
-}
-
 #top {
     padding-top: 10ex;
     padding-bottom: 10ex;
@@ -208,6 +204,7 @@ section {
 
     .grid-item:hover {
         animation: fade-in 0.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+        border-color: white;
     }
 
         .grid-item:hover .buttons {
