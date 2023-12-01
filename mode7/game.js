@@ -105,23 +105,21 @@ const game = {
             translateX(${-this.target.x + (this.distance - this.perspective) * Math.sin(this.rot.z) * Math.sin(this.rot.x)}px)
             `;
             let skyWidth = window.innerWidth / this.fov * pi2;
-            let camZ = (this.distance - this.perspective) * Math.cos(this.rot.x) + this.pos.z;
             let horizon = this.perspective * Math.tan(this.rot.x - pi_2) + vh_2();
-            // let horizon =  -camZ / Math.tan(-this.rot.x) + vh_2();
             sky.style.backgroundSize = `${skyWidth}px`;
             sky.style.backgroundPositionX = `${-this.rot.z / pi2 * skyWidth +  vw_2()}px`;
-            sky.style.backgroundPositionY = `${horizon - parseFloat(getComputedStyle(sky).backgroundSize.split(' ')[0]) / game.skyRatio }px`;
+            sky.style.backgroundPositionY = `${horizon - parseFloat(getComputedStyle(sky).backgroundSize.split(' ')[0]) / game.skyRatio() }px`;
             document.body.style.backgroundImage = `linear-gradient(#f8e890 ${horizon - 10}px, #009F00 ${horizon + 10}px)`;
         }
     },
-    skyRatio: 0,
+    skyRatio: ()=> {return sky.naturalWidth / sky.naturalHeight},
     init: function () {
         document.addEventListener('keydown', (event) => this.controls.read(event, event.timeStamp));
         document.addEventListener('keyup', (event) => this.controls.read(event, 0));
         game.camera.trackedObject = game.p1;
 
         const sky = document.getElementById("sky");
-        sky.onload = ()=>{game.skyRatio = sky.naturalWidth / sky.naturalHeight;}
+        sky.onload = ()=>{this.skyRatio = sky.naturalWidth / sky.naturalHeight;}
         sky.style.backgroundImage = `url('${sky.src}')`;
         
         
