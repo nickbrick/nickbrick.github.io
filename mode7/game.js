@@ -1,7 +1,18 @@
+const pi = 3.141593
+const pi_2 = 1.570796
+const pi2 = 6.283185
+const rad2deg = 57.295780
+const deg2rad = 0.017453
+const vw = () => window.innerWidth;
+const vw_2 = () => window.innerWidth / 2;
+const vh = () => window.innerHeight;
+const vh_2 = () => window.innerHeight / 2;
+
+
 const game = {
-    paused: false,
     p1: {
         id: "p1",
+        scale: 2.0,
         pos: {
             x: -580,
             y: 0
@@ -29,7 +40,7 @@ const game = {
             this.dir += this.dDir;
         },
         draw: function () {
-            document.getElementById(this.id).style.transform = `translateX(${this.pos.x}px) translateY(${this.pos.y}px) rotate(${this.dir}rad) rotateY(-80deg)`;
+            document.getElementById(this.id).style.transform = `translateX(${this.pos.x}px) translateY(${this.pos.y}px) rotate(${this.dir}rad) rotateY(${-game.camera.rot.x}rad) scale(${this.scale}) `;
         }
     },
     controls: {
@@ -50,8 +61,12 @@ const game = {
     },
     camera: {
         trackedObject: undefined,
+        speed: 0.2,
+        offset: -5,
         distance: 20,
-        pos: {
+        perspective: 0,
+        fov: 0,
+        target: {
             x: 0,
             y: 0,
             z: 0
@@ -61,67 +76,73 @@ const game = {
             y: 0,
             z: 0
         },
-        zoom: 8,
+        pos: { z: 0 },
+        zoom: 1,
         step: function () {
+            this.speed = document.getElementsByName("camera.speed")[0].value;
+            this.pos.z = document.getElementsByName("camera.pos.z")[0].value;
+
             let o = this.trackedObject;
-            this.pos.x = o.pos.x - this.distance * Math.sin(o.dir);
-            this.pos.y = o.pos.y + this.distance * Math.cos(o.dir);
-            this.rot.z = o.dir;
+            this.target.x += (o.pos.x - this.offset * Math.sin(o.dir) - this.target.x) * this.speed;
+            this.target.y += (o.pos.y + this.offset * Math.cos(o.dir) - this.target.y) * this.speed;
+            this.rot.z = (this.speed * o.dir) + (1.0 - this.speed) * this.rot.z;
+            this.rot.x = document.getElementsByName("camera.rot.x")[0].value * deg2rad;
+            this.offset = document.getElementsByName("camera.offset")[0].value;
+            this.distance = document.getElementsByName("camera.distance")[0].value;
+            this.fov = document.getElementsByName("camera.fov")[0].value * deg2rad;
+            this.perspective = vw_2() / Math.tan(this.fov / 2);
         },
         draw: function () {
-            document.getElementById("camera").style.transform = `translateX(${this.pos.x}px) translateY(${this.pos.y}px) rotate(${this.rot.z}rad)`;
-            document.getElementById("world").style.transformOrigin = `${window.innerWidth/2 }px ${window.innerHeight/2 }px`
+            document.getElementById("target").style.transform = `translateX(${this.target.x}px) translateY(${this.target.y}px) rotate(${this.rot.z}rad)`;
+            document.getElementById("world").style.transformOrigin = `${vw_2()}px ${vh_2()}px`
             document.getElementById("world").style.transform = `
             scale(${this.zoom})
-            perspective(10vw)
-            rotateX(85deg)
-            translateZ(${-this.distance * 1.8}px)
-
+            perspective(${this.perspective}px)
+            rotateX(${this.rot.x}rad)
+            translateZ(${-(this.distance - this.perspective) * Math.cos(this.rot.x) - this.pos.z}px)
             rotateZ(${-this.rot.z}rad)
-            translateY(${-this.pos.y + (this.distance * Math.cos(this.rot.z)*0)}px)
-            translateX(${-this.pos.x - (this.distance * Math.sin(this.rot.z)*0)}px)
+            translateY(${-this.target.y - (this.distance - this.perspective) * Math.cos(this.rot.z) * Math.sin(this.rot.x)}px)
+            translateX(${-this.target.x + (this.distance - this.perspective) * Math.sin(this.rot.z) * Math.sin(this.rot.x)}px)
             `;
-            const sky = document.getElementById("sky");
-            sky.style.backgroundPositionX = `${-0.7 * this.rot.z * sky.clientWidth}px`
-
+            let skyWidth = window.innerWidth / this.fov * pi2;
+            let camZ = (this.distance - this.perspective) * Math.cos(this.rot.x) + this.pos.z;
+            let horizon = this.perspective * Math.tan(this.rot.x - pi_2) + vh_2();
+            // let horizon =  -camZ / Math.tan(-this.rot.x) + vh_2();
+            sky.style.backgroundSize = `${skyWidth}px`;
+            sky.style.backgroundPositionX = `${-this.rot.z / pi2 * skyWidth +  vw_2()}px`;
+            sky.style.backgroundPositionY = `${horizon - parseFloat(getComputedStyle(sky).backgroundSize.split(' ')[0]) / game.skyRatio }px`;
+            console.log((game.skyRatio));
+            document.body.style.backgroundImage = `linear-gradient(#f8e890 ${horizon - 10}px, #009F00 ${horizon + 10}px)`;
         }
     },
+    skyRatio: ()=> {return sky.naturalWidth / sky.naturalHeight},
     init: function () {
         document.addEventListener('keydown', (event) => this.controls.read(event, event.timeStamp));
         document.addEventListener('keyup', (event) => this.controls.read(event, 0));
         game.camera.trackedObject = game.p1;
+
+        const sky = document.getElementById("sky");
+        sky.onload = ()=>{this.skyRatio = sky.naturalWidth / sky.naturalHeight;}
+        sky.style.backgroundImage = `url('${sky.src}')`;
+        
+        
+
         window.requestAnimationFrame(game.step);
+
 
     },
     step: function (timestamp) {
-        if (!this.paused) {
-            // const element = document.getElementById("map");
-            let start, previousTimestamp;
-            let done = false;
 
-            if (start === undefined) {
-                start = timestamp;
-            }
-            const elapsed = timestamp - start;
-
-            if (previousTimestamp !== timestamp) {
-                // Math.min() is used here to make sure the element stops at exactly 200px
-                const count = Math.min(0.1 * elapsed, 200);
-                //element.style.transform = `translateX(${count}px)`;
-                if (count === 200) done = true;
-            }
-
-            game.p1.step(timestamp);
-            game.p1.draw();
-            game.camera.step();
-            game.camera.draw();
+        game.p1.step(timestamp);
+        game.camera.step();
+        game.p1.draw();
+        game.camera.draw();
 
 
 
 
 
-            window.requestAnimationFrame(game.step);
-        }
+        window.requestAnimationFrame(game.step);
     },
 };
 game.init();

@@ -4,16 +4,24 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
 </head>
-
-<body>
-    <div id="sky"></div>
-    <div id="world" style="overflow: hidden;">
+    <body style="background-image: linear-gradient(#f8e890 35%, #009F00 38%);">
+    <img src="skyback1.png" id="sky" style="background-position-y: 30vh;"></div>
+    <div id="world">
+        <!-- <iframe id="map" width="4250" height="3500" src="https://www.openstreetmap.org/export/embed.html?bbox=6.8898868560791025%2C50.33258689935539%2C7.014169692993165%2C50.385592390800554&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/#map=14/50.3591/6.9520">View Larger Map</a></small> -->
         <img id="map" src="SuperMarioKartMapFlowerCup5.png">
         <div id="p1" class="sprite">🚘</div>
-        <div id="camera" class="sprite hidden">🎦</div>
+        <div id="target" class="sprite ">🎦</div>
     </div>
-    <div id="hud" class="sprite hidden" style="top:8px;left: 8px;">⭕</div>
-    <div class="sprite" style="top:230px;left: 8px; font-size: 120px;">🚘</div>
-
+    <div id="hud">
+        <div><span>camera.rot.x</span><input name="camera.rot.x" type="range" min="0" max="90" value="80"></div>
+        <div><span>camera.pos.z</span><input name="camera.pos.z" type="range" min="0" max="90" value="80"></div>
+        <div><span>camera.offset</span><input name="camera.offset" type="range" min="-20" max="20" value="-5"></div>
+        <div><span>camera.distance</span><input name="camera.distance" type="range" min="20" max="200" value="100"></div>
+        <div><span>camera.speed</span><input name="camera.speed" type="range" min="0" max="1" value="0.15" step="0.01"></div>
+        <div><span>camera.fov</span><input name="camera.fov" type="range" min="60" max="130" value="75" step="2"></div>
+        <hr style="width: 100vw; position: fixed; top: 50vh; margin: 0;">
+        <div class="sprite hidden" style="top:8px;left: 8px;">⭕</div>
+        <div class="sprite" style="top:230px;left: 8px; font-size: 120px;opacity: 0.2;">🚘</div>
+    </div>
 </body>
 <script src="game.js"></script>
