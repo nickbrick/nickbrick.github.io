@@ -1,3 +1,7 @@
+* {
+    outline: 1px red solid;
+}
+
 body {
     overflow: hidden;
     height: 100vh;
@@ -10,14 +14,23 @@ body {
     position: absolute;
     top: 0px;
     left: 0px;
-    width: 100vw;
     text-align: center;
-    line-height: 100vh;
     user-select: none;
     transform-origin: center;
+    content-visibility: hidden;
 }
 
-#hud {
+.sprite.logical {
+    width: 1px;
+    height: 1px;
+    outline: 3px solid red;
+}
+
+.sprite.shadow{
+    color: transparent;
+    background: radial-gradient(circle, rgba(0,0,0,0.8) 25%, rgba(0,0,0,0) 75%);
+}
+.screen {
     position: absolute;
     width: 100vw;
     height: 100vh;
@@ -25,6 +38,10 @@ body {
     left: 0;
 }
 
+#world{
+    width: fit-content;
+    height: fit-content;
+}
 #sky {
     position: absolute;
     width: 100vw;
@@ -33,6 +50,18 @@ body {
     content-visibility: hidden;
 }
 
+#target{
+    transform-origin: top left;
+    outline: none;
+    border-left: 1px solid red;
+    border-top:  1px solid red;
+}
 .hidden {
     visibility: hidden;
+}
+
+input[type=range]:after{
+    content: attr(value);
+    color: #000;
+    position: absolute;
 }
