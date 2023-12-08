@@ -1,5 +1,6 @@
 * {
-    outline: 1px red solid;
+    /* outline: 1px red solid; */
+    image-rendering: pixelated; 
 }
 
 body {
@@ -50,12 +51,6 @@ body {
     content-visibility: hidden;
 }
 
-#target{
-    transform-origin: top left;
-    outline: none;
-    border-left: 1px solid red;
-    border-top:  1px solid red;
-}
 .hidden {
     visibility: hidden;
 }

@@ -3,23 +3,26 @@ const pi_2 = 1.570796
 const pi2 = 6.283185
 const rad2deg = 57.295780
 const deg2rad = 0.017453
+const epsilon = 0.0001;
+const g = 0.51;
 const vw = () => window.innerWidth;
 const vw_2 = () => window.innerWidth / 2;
 const vh = () => window.innerHeight;
 const vh_2 = () => window.innerHeight / 2;
-
+const mod = (n, m) => (n % m + m) % m;
 
 const game = {
     stop: function () { this.step = function () { }; },
     p1: {
         id: "p1",
         elms: { logical: undefined, shadow: undefined, visual: undefined },
-        scale: 1.0,
+        scale: 0.70,
         pos: {
             x: -0,
-            y: 0
+            y: 0,
+            z: 100
         },
-        offset: -0.5,
+        offset: 0.1,
         toScreen: function () {
             let rect = this.elms.logical.getBoundingClientRect();
             return {
@@ -27,11 +30,29 @@ const game = {
                 y: rect.top,
             }
         },
-        vel: 0,
-        dVel: 0,
+        vel: { h: 0, v: 0 },
+        dVel: { h: 0, v: 0 },
         dir: 0,
         dDir: 0,
+        drift: 0,
+        config: {
+            jump: 5,
+            acceleration: 0.05,
+            braking: 0.10,
+            friction: 0.99,
+            reverse: -0.6,
+            resting: { vel: 0.1, dVel: 0.01 },
+            steering: {
+                ground: 0.0041,
+                air: 0.008,
+                framesToMax: 300,
+                decay: 0.9,
+                speedPenalty: true
+            },
+
+        },
         angle: function () { return game.camera.rot.z - this.dir },
+        grounded: function () { return this.pos.z < epsilon && this.vel.v <= epsilon; },
         init: function () {
             this.elms.logical = document.createElement("div");
             this.elms.logical.id = this.id + "-logical";
@@ -48,23 +69,35 @@ const game = {
 
 
         step: function (timestamp) {
-            let dx = this.vel * Math.sin(this.dir);
-            let dy = -this.vel * Math.cos(this.dir);
+            let dx = this.vel.h * Math.sin(this.dir);
+            let dy = -this.vel.h * Math.cos(this.dir);
             this.pos.x += dx;
             this.pos.y += dy;
 
-            this.dVel = (game.controls.forward.frame > 0) * 0.0510;
-            this.dVel += (game.controls.back.frame > 0) * (-0.10);
-            this.vel += this.dVel;
-            this.vel *= 0.99;
-            this.vel = Math.max(this.vel, -0.6);
-            if (Math.abs(this.vel) < 0.1 && Math.abs(this.dVel) < 0.01) this.vel = 0;
+            this.dVel.h = (game.controls.forward.frame > 0) * this.config.acceleration;
+            this.dVel.h += (game.controls.back.frame > 0) * (-this.config.braking);
+            this.vel.h += this.dVel.h;
+            this.vel.h *= this.config.friction;
+            this.vel.h = Math.max(this.vel.h, this.config.reverse);
+            if (Math.abs(this.vel.h) < this.config.resting.vel && Math.abs(this.dVel.h) < this.config.resting.dVel) this.vel.h = 0;
 
-            let steerCurve = Math.min((timestamp - Math.max(game.controls.right.frame, game.controls.left.frame)) / 300, 1.0);
-            if (game.controls.left.frame) this.dDir -= 0.0041 * steerCurve;//* Math.min(this.vel / 1.0, 1.0);
-            if (game.controls.right.frame) this.dDir += 0.0041 * steerCurve;//* Math.min(this.vel / 1.0, 1.0);
-            this.dDir *= 0.9;
+            let steerCurve = Math.min((timestamp - Math.max(game.controls.right.frame, game.controls.left.frame)) / this.config.steering.framesToMax, 1.0);
+            let speedPenalty = this.config.steering.speedPenalty ? Math.min(this.vel.h / 1.0, 1.0) : 1.0;
+            let base = this.grounded() ? this.config.steering.ground * speedPenalty : this.config.steering.air;
+            if (game.controls.left.frame) this.dDir -= base * steerCurve ;
+            if (game.controls.right.frame) this.dDir +=base * steerCurve ;
+            this.dDir *= this.config.steering.decay;
             this.dir += this.dDir;
+
+            if (this.grounded() && game.controls.jump.frame)
+                this.vel.v = this.config.jump;
+            else {
+                this.dVel.v = this.grounded() ? 0 : -g;
+                this.vel.v = this.grounded() ? 0 : this.vel.v + this.dVel.v;
+                this.pos.z += this.vel.v;
+                this.pos.z = Math.max(this.pos.z, 0);
+            }
+
 
 
 
@@ -84,34 +117,33 @@ const game = {
             rotate(${this.dir}rad)
             scale(${this.scale})`;
 
-            let diff = { x: this.pos.x - game.camera.pos().x, y: this.pos.y - game.camera.pos().y, z: 0 - game.camera.pos().z };
+            let diff = { x: this.pos.x - game.camera.pos().x, y: this.pos.y - game.camera.pos().y, z: this.pos.z - game.camera.pos().z };
             let dot = diff.x * game.camera.normal.x + diff.y * game.camera.normal.y + diff.z * game.camera.normal.z;
             this.elms.visual.style.backgroundImage = `url('${this.elms.visual.src}')`;
             this.elms.visual.style.width = `${this.elms.visual.naturalHeight}px`;
             this.elms.visual.style.height = `${this.elms.visual.naturalHeight}px`;
-            let frameSize = this.elms.visual.naturalHeight + 1;
+            let frameSize = this.elms.visual.naturalHeight;
             let frames = (this.elms.visual.naturalWidth) / frameSize;
             let frameAngSize = pi_2 / frames;
-            let correctedAngle = this.angle() + frameAngSize / 2;
-            let halfCircleFract = (correctedAngle / pi) % 2;
-            let flip = halfCircleFract > 0 ^ Math.abs(halfCircleFract) % 2 > 1;
+            let correctedAngle = Math.abs(this.angle() / pi);
+            let halfCircleFract = (correctedAngle) % 2;
+            let flip = mod((this.angle() / pi), 2) < 1;
             let sign = flip ? -1 : 1;
-            if (Math.abs(halfCircleFract % 2) > 1){ 
-                    halfCircleFract = (sign * 2 - halfCircleFract);
-            }
-            let frame = Math.floor(Math.abs(halfCircleFract) * frames);
-            if (frame == 0 || frame == frames-1) sign = 1;
+            let retrograde = (halfCircleFract) > 1;
+            let sawtooth = (!retrograde) * halfCircleFract + (retrograde) * (2 - halfCircleFract);
+            console.log(flip);
+            let frame = Math.round(sawtooth * (frames - 1));
+            if (frame == 0 || frame == frames - 1) sign = 1;
+            let jump = this.pos.z * (game.camera.perspective / dot) * Math.sin(game.camera.rot.x);
             this.elms.visual.style.backgroundPositionX = `${-frame * frameSize}px`;
             this.elms.visual.style.transform = `
             translateX(${this.toScreen().x - parseFloat(getComputedStyle(this.elms.visual).width) / 2}px)
-            translateY(${this.toScreen().y - parseFloat(getComputedStyle(this.elms.visual).width) / 2}px)
+            translateY(${this.toScreen().y - parseFloat(getComputedStyle(this.elms.visual).width) / 2 + jump}px)
             translateZ(0px)
             scale(${this.scale * (game.camera.perspective / dot)})
-            translateY(${- this.elms.visual.naturalHeight / 2}px)
+            translateY(${this.elms.visual.naturalHeight * (this.offset-0.5)}px)
             scaleX(${sign})
             `;
-            console.clear();
-            console.log(flip);
         }
 
 
@@ -131,6 +163,7 @@ const game = {
                         this[name].frame = frame;
                 }
             });
+            //console.log(event.keyCode);
         },
     },
     camera: {
@@ -159,14 +192,13 @@ const game = {
             return {
                 x: this.target.x + (this.distance - world * this.perspective) * Math.sin(this.rot.z) * Math.sin(this.rot.x),
                 y: this.target.y - (this.distance - world * this.perspective) * Math.cos(this.rot.z) * Math.sin(this.rot.x),
-                z: this.height + (this.distance - world * this.perspective) * Math.cos(this.rot.x)
+                z: this.target.z + (this.distance - world * this.perspective) * Math.cos(this.rot.x)
             };
         },
-        height: 0,
         zoom: 1,
         step: function () {
             this.speed = parseFloat(document.getElementsByName("camera.speed")[0].value);
-            this.height = parseFloat(document.getElementsByName("camera.height")[0].value);
+            this.target.z = parseFloat(document.getElementsByName("camera.height")[0].value);
 
             let o = this.trackedObject;
             this.target.x += (o.pos.x - this.offset * Math.sin(o.dir) - this.target.x) * this.speed;
@@ -175,7 +207,7 @@ const game = {
             this.rot.x = parseFloat(document.getElementsByName("camera.rot.x")[0].value) * deg2rad;
             this.offset = parseFloat(document.getElementsByName("camera.offset")[0].value);
             this.fov = parseFloat(document.getElementsByName("camera.fov")[0].value) * deg2rad;
-            this.perspective = vw_2() / Math.tan(this.fov / 2);
+            this.perspective = vh() / Math.tan(this.fov / 2);
             this.distance = parseFloat(document.getElementsByName("camera.distance")[0].value);
 
             this.normal.x = -Math.sin(this.rot.z) * Math.sin(this.rot.x);
@@ -195,10 +227,10 @@ const game = {
             translateY(${-this.pos(true).y}px)
             translateZ(${-this.pos(true).z}px)            
             `;
-            let skyWidth = window.innerWidth / this.fov * pi2;
+            let skyWidth = 1 / (this.fov / pi2);
             let horizon = this.perspective * Math.tan(-this.rot.x - pi_2) + vh_2();
-            sky.style.backgroundSize = `${skyWidth}px`;
-            sky.style.backgroundPositionX = `${-this.rot.z / pi2 * skyWidth + vw_2()}px`;
+            sky.style.backgroundSize = `${100 * skyWidth}vw`;
+            sky.style.backgroundPositionX = `${-this.rot.z / pi2 * skyWidth * vw() + vw_2()}px`;
             sky.style.backgroundPositionY = `${horizon - parseFloat(getComputedStyle(sky).backgroundSize.split(' ')[0]) / game.skyRatio}px`;
             document.body.style.backgroundImage = `linear-gradient(#f8e890 ${horizon - 10}px, #009F00 ${horizon + 10}px)`;
 
