@@ -1,16 +1,26 @@
 const pi = 3.141593
 const pi_2 = 1.570796
-const pi2 = 6.283185
+const tau = 6.283185
 const rad2deg = 57.295780
 const deg2rad = 0.017453
 const epsilon = 0.0001;
-const g = 0.51;
+const g = 0.41;
 const vw = () => window.innerWidth;
 const vw_2 = () => window.innerWidth / 2;
 const vh = () => window.innerHeight;
 const vh_2 = () => window.innerHeight / 2;
 const mod = (n, m) => (n % m + m) % m;
-
+const balancedNormalizeAngle = (a) => {
+    a = a % tau;
+    a = (a + tau) % tau;
+    if (a > pi) a -= tau;
+    return a;
+}
+const circlesDiff = (x, target) => {
+    let diff = target - x;
+    return ~~(diff / tau);
+}
+const minMagnitude = (a, b) => { if (Math.abs(a) < Math.abs(b)) return a; else return b; }
 const game = {
     stop: function () { this.step = function () { }; },
     p1: {
@@ -32,26 +42,33 @@ const game = {
         },
         vel: { h: 0, v: 0 },
         dVel: { h: 0, v: 0 },
-        dir: 0,
-        dDir: 0,
-        drift: 0,
+        course: 0,
+        dCourse: 0,
+        heading: 0,
+        dHeading: 0,
         config: {
-            jump: 5,
-            acceleration: 0.05,
+            jump: 4,
+            acceleration: 0.06,
             braking: 0.10,
-            friction: 0.99,
+            friction: { base: 0.988, side: 0.041 },
             reverse: -0.6,
             resting: { vel: 0.1, dVel: 0.01 },
             steering: {
-                ground: 0.0041,
-                air: 0.008,
+                ground: 0.0031,
+                air: 0.006,
                 framesToMax: 300,
                 decay: 0.9,
                 speedPenalty: true
             },
+            turning: {
+                ground: 0.1,
+                coastingBonus: 1.5,
+                air: 0
+            }
 
         },
-        angle: function () { return game.camera.rot.z - this.dir },
+        angle: function () { return game.camera.rot.z - this.heading },
+        turn: function () { return balancedNormalizeAngle(this.heading - this.course); },
         grounded: function () { return this.pos.z < epsilon && this.vel.v <= epsilon; },
         init: function () {
             this.elms.logical = document.createElement("div");
@@ -59,62 +76,85 @@ const game = {
             this.elms.logical.classList = "sprite logical";
             document.getElementById("world").appendChild(this.elms.logical);
 
+            this.elms.visual = document.getElementById(this.id);
+
             this.elms.shadow = document.createElement("div");
             this.elms.shadow.id = this.id + "-shadow";
             this.elms.shadow.classList = "sprite shadow";
             document.getElementById("world").appendChild(this.elms.shadow);
 
-            this.elms.visual = document.getElementById(this.id);
         },
 
 
         step: function (timestamp) {
-            let dx = this.vel.h * Math.sin(this.dir);
-            let dy = -this.vel.h * Math.cos(this.dir);
-            this.pos.x += dx;
-            this.pos.y += dy;
 
-            this.dVel.h = (game.controls.forward.frame > 0) * this.config.acceleration;
-            this.dVel.h += (game.controls.back.frame > 0) * (-this.config.braking);
-            this.vel.h += this.dVel.h;
-            this.vel.h *= this.config.friction;
-            this.vel.h = Math.max(this.vel.h, this.config.reverse);
-            if (Math.abs(this.vel.h) < this.config.resting.vel && Math.abs(this.dVel.h) < this.config.resting.dVel) this.vel.h = 0;
-
-            let steerCurve = Math.min((timestamp - Math.max(game.controls.right.frame, game.controls.left.frame)) / this.config.steering.framesToMax, 1.0);
-            let speedPenalty = this.config.steering.speedPenalty ? Math.min(this.vel.h / 1.0, 1.0) : 1.0;
-            let base = this.grounded() ? this.config.steering.ground * speedPenalty : this.config.steering.air;
-            if (game.controls.left.frame) this.dDir -= base * steerCurve ;
-            if (game.controls.right.frame) this.dDir +=base * steerCurve ;
-            this.dDir *= this.config.steering.decay;
-            this.dir += this.dDir;
-
-            if (this.grounded() && game.controls.jump.frame)
-                this.vel.v = this.config.jump;
-            else {
-                this.dVel.v = this.grounded() ? 0 : -g;
-                this.vel.v = this.grounded() ? 0 : this.vel.v + this.dVel.v;
-                this.pos.z += this.vel.v;
-                this.pos.z = Math.max(this.pos.z, 0);
+            { // position
+                let dx = this.vel.h * Math.sin(this.course);
+                let dy = -this.vel.h * Math.cos(this.course);
+                this.pos.x += dx;
+                this.pos.y += dy;
             }
 
+            { // velocity
+                let vel = { x: this.vel.h * Math.sin(this.course), y: -this.vel.h * Math.cos(this.course) }
+                let basePower = (game.controls.forward.frame > 0) * this.grounded() * this.config.acceleration * 1;
+                let power = { x: basePower * Math.sin(this.heading), y: -basePower * Math.cos(this.heading) };
+                let newVel = { x: power.x + vel.x, y: power.y + vel.y };
+                this.course += circlesDiff(this.course, this.heading) * tau;
+                if ((this.vel.h + basePower) != 0)
+                    this.course = this.course + this.turn() * basePower / (this.vel.h + basePower);
+                this.dVel.h = Math.hypot(newVel.x, newVel.y) - this.vel.h;
+                this.dVel.h += (game.controls.back.frame > 0) * (-this.config.braking);
+                this.vel.h += this.dVel.h;
+                this.vel.h *= this.config.friction.base * Math.cos(this.turn() * this.config.friction.side);
+                this.vel.h = Math.max(this.vel.h, this.config.reverse);
+                if (Math.abs(this.vel.h) < this.config.resting.vel && Math.abs(this.dVel.h) < this.config.resting.dVel)
+                    this.vel.h = 0;
+            }
 
+            { // heading
+                let steerCurve = Math.min((timestamp - Math.max(game.controls.right.frame, game.controls.left.frame)) / this.config.steering.framesToMax, 1.0);
+                let speedPenalty = this.config.steering.speedPenalty ? Math.min(this.vel.h / 1.0, 1.0) : 1.0;
+                let base = this.grounded() ? this.config.steering.ground * speedPenalty : this.config.steering.air;
+                if (game.controls.left.frame) this.dHeading -= base * steerCurve;
+                if (game.controls.right.frame) this.dHeading += base * steerCurve;
+                this.dHeading *= this.config.steering.decay;
+                this.heading += this.dHeading;
+            }
 
+            { // course
+                let base = this.grounded() ? this.config.turning.ground : this.config.turning.air;
+                base *= (this.dVel.h <= 0 ? this.config.turning.coastingBonus : 1);
+                let withSpeed = Math.sign(this.turn()) * base / (Math.abs(this.vel.h + 0.1) ** 2);
+                this.dCourse = minMagnitude(withSpeed, this.turn());// Math.sign(this.turn()) * Math.min(Math.abs(this.turn()), base / (Math.abs(this.vel.h + 0.1) ** 2));
+                this.course += this.dCourse;
+            }
+
+            { // jumping
+                if (this.grounded() && game.controls.jump.frame)
+                    this.vel.v = this.config.jump;
+                else {
+                    this.dVel.v = this.grounded() ? 0 : -g;
+                    this.vel.v = this.grounded() ? 0 : this.vel.v + this.dVel.v;
+                    this.pos.z += this.vel.v;
+                    this.pos.z = Math.max(this.pos.z, 0);
+                }
+            }
 
         },
         draw: function () {
             this.elms.logical.style.transform = `
             translateX(${vw_2() + this.pos.x}px)
             translateY(${vh_2() + this.pos.y}px)
-            rotate(${this.dir}rad)
+            rotate(${this.course}rad)
             `;
 
-            this.elms.shadow.style.width = `${this.size}px`;
-            this.elms.shadow.style.height = `${this.size}px`;
+            this.elms.shadow.style.width = `${this.elms.visual.naturalHeight}px`;
+            this.elms.shadow.style.height = `${this.elms.visual.naturalHeight}px`;
             this.elms.shadow.style.transform = `
-            translateX(${vw_2() + this.pos.x - this.size / 2}px)
-            translateY(${vh_2() + this.pos.y - this.size / 2}px)
-            rotate(${this.dir}rad)
+            translateX(${vw_2() + this.pos.x - this.elms.visual.naturalHeight / 2}px)
+            translateY(${vh_2() + this.pos.y - this.elms.visual.naturalHeight / 2}px)
+            rotate(${this.heading}rad)
             scale(${this.scale})`;
 
             let diff = { x: this.pos.x - game.camera.pos().x, y: this.pos.y - game.camera.pos().y, z: this.pos.z - game.camera.pos().z };
@@ -131,7 +171,6 @@ const game = {
             let sign = flip ? -1 : 1;
             let retrograde = (halfCircleFract) > 1;
             let sawtooth = (!retrograde) * halfCircleFract + (retrograde) * (2 - halfCircleFract);
-            console.log(flip);
             let frame = Math.round(sawtooth * (frames - 1));
             if (frame == 0 || frame == frames - 1) sign = 1;
             let jump = this.pos.z * (game.camera.perspective / dot) * Math.sin(game.camera.rot.x);
@@ -141,7 +180,7 @@ const game = {
             translateY(${this.toScreen().y - parseFloat(getComputedStyle(this.elms.visual).width) / 2 + jump}px)
             translateZ(0px)
             scale(${this.scale * (game.camera.perspective / dot)})
-            translateY(${this.elms.visual.naturalHeight * (this.offset-0.5)}px)
+            translateY(${this.elms.visual.naturalHeight * (this.offset - 0.5)}px)
             scaleX(${sign})
             `;
         }
@@ -195,15 +234,18 @@ const game = {
                 z: this.target.z + (this.distance - world * this.perspective) * Math.cos(this.rot.x)
             };
         },
+        turn: function (target) { return balancedNormalizeAngle(target.course - this.rot.z); },
         zoom: 1,
         step: function () {
             this.speed = parseFloat(document.getElementsByName("camera.speed")[0].value);
             this.target.z = parseFloat(document.getElementsByName("camera.height")[0].value);
 
             let o = this.trackedObject;
-            this.target.x += (o.pos.x - this.offset * Math.sin(o.dir) - this.target.x) * this.speed;
-            this.target.y += (o.pos.y + this.offset * Math.cos(o.dir) - this.target.y) * this.speed;
-            this.rot.z = (this.speed * o.dir) + (1.0 - this.speed) * this.rot.z;
+            this.target.x += (o.pos.x - this.offset * Math.sin(o.course) - this.target.x) * this.speed;
+            this.target.y += (o.pos.y + this.offset * Math.cos(o.course) - this.target.y) * this.speed;
+            this.rot.z += circlesDiff(this.rot.z, o.course) * tau;
+            let turn = this.turn(o);
+            this.rot.z += this.speed * turn;
             this.rot.x = parseFloat(document.getElementsByName("camera.rot.x")[0].value) * deg2rad;
             this.offset = parseFloat(document.getElementsByName("camera.offset")[0].value);
             this.fov = parseFloat(document.getElementsByName("camera.fov")[0].value) * deg2rad;
@@ -227,10 +269,10 @@ const game = {
             translateY(${-this.pos(true).y}px)
             translateZ(${-this.pos(true).z}px)            
             `;
-            let skyWidth = 1 / (this.fov / pi2);
+            let skyWidth = 1 / (this.fov / tau);
             let horizon = this.perspective * Math.tan(-this.rot.x - pi_2) + vh_2();
             sky.style.backgroundSize = `${100 * skyWidth}vw`;
-            sky.style.backgroundPositionX = `${-this.rot.z / pi2 * skyWidth * vw() + vw_2()}px`;
+            sky.style.backgroundPositionX = `${-this.rot.z / tau * skyWidth * vw() + vw_2()}px`;
             sky.style.backgroundPositionY = `${horizon - parseFloat(getComputedStyle(sky).backgroundSize.split(' ')[0]) / game.skyRatio}px`;
             document.body.style.backgroundImage = `linear-gradient(#f8e890 ${horizon - 10}px, #009F00 ${horizon + 10}px)`;
 
