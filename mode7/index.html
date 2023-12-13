@@ -4,22 +4,31 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
 </head>
-    <body style="background-image: linear-gradient(#f8e890 35%, #009F00 38%);">
-    <img src="skyback.png" id="sky" style="background-position-y: 30vh;"></div>
-    <div id="world">
-        <!-- <iframe id="map" width="4250" height="3500" src="https://www.openstreetmap.org/export/embed.html?bbox=6.8898868560791025%2C50.33258689935539%2C7.014169692993165%2C50.385592390800554&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/#map=14/50.3591/6.9520">View Larger Map</a></small> -->
-        <img id="map" src="SuperMarioKartMapFlowerCup5.png">
-    </div>
-    <div id="sprites" class="screen">
-        <img id="p1" class="sprite" src="toad.png">
+
+<body style="background-image: linear-gradient(#f8e890 35%, #009F00 38%);">
+    <div style="overflow: hidden;">
+        <img src="skyback.png" id="sky" style="background-position-y: 30vh;">
+        <div id="world">
+            <!-- <iframe id="map" width="4250" height="3500" src="https://www.openstreetmap.org/export/embed.html?bbox=6.8898868560791025%2C50.33258689935539%2C7.014169692993165%2C50.385592390800554&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/#map=14/50.3591/6.9520">View Larger Map</a></small> -->
+            <img id="map" src="SuperMarioKartMapFlowerCup5.png">
+        </div>
+        <div id="sprites" class="screen">
+            <img id="p1" class="sprite" src="toad.png">
+        </div>
     </div>
     <div id="hud" class="screen">
-        <div><span>camera.rot.x</span><input type="range" name="camera.rot.x"       min="-90" max="0" value="-80" onchange="this.setAttribute('value',this.value);"></div>
-        <div><span>camera.height</span><input type="range" name="camera.height"     min="0" max="90" value="27" onchange="this.setAttribute('value',this.value);"></div>
-        <div><span>camera.offset</span><input type="range" name="camera.offset"     min="-20" max="20" value="7" onchange="this.setAttribute('value',this.value);"></div>
-        <div><span>camera.distance</span><input type="range" name="camera.distance" min="20" max="200" value="92" onchange="this.setAttribute('value',this.value);"></div>
-        <div><span>camera.speed</span><input type="range" name="camera.speed"       min="0" max="1" value="0.10" step="0.01" onchange="this.setAttribute('value',this.value);"></div>
-        <div><span>camera.fov</span><input type="range" name="camera.fov"           min="60" max="130" value="86" step="2" onchange="this.setAttribute('value',this.value);"></div>
+        <div><span>camera.rot.x</span><input type="range" name="camera.rot.x" min="-90" max="0" value="-80"
+                onchange="this.setAttribute('value',this.value);"></div>
+        <div><span>camera.height</span><input type="range" name="camera.height" min="0" max="90" value="27"
+                onchange="this.setAttribute('value',this.value);"></div>
+        <div><span>camera.offset</span><input type="range" name="camera.offset" min="-20" max="20" value="7"
+                onchange="this.setAttribute('value',this.value);"></div>
+        <div><span>camera.distance</span><input type="range" name="camera.distance" min="20" max="200" value="92"
+                onchange="this.setAttribute('value',this.value);"></div>
+        <div><span>camera.speed</span><input type="range" name="camera.speed" min="0" max="1" value="0.10" step="0.01"
+                onchange="this.setAttribute('value',this.value);"></div>
+        <div><span>camera.fov</span><input type="range" name="camera.fov" min="60" max="130" value="86" step="2"
+                onchange="this.setAttribute('value',this.value);"></div>
         <!-- <hr style="width: 100vw; position: fixed; top: 50vh; margin: 0;"> -->
     </div>
 </body>
