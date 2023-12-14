@@ -5,9 +5,9 @@ const rad2deg = 57.295780
 const deg2rad = 0.017453
 const epsilon = 0.0001;
 const g = 0.41;
-const vw = () => screen.width/1;
+const vw = () => window.innerWidth; // resolution / dpr
 const vw_2 = () => vw()/2;
-const vh = () => screen.height/1;
+const vh = () => window.innerHeight;
 const vh_2 = () => vh()/2;
 const mod = (n, m) => (n % m + m) % m;
 const balancedNormalizeAngle = (a) => {
@@ -26,7 +26,7 @@ const game = {
     p1: {
         id: "p1",
         elms: { logical: undefined, shadow: undefined, visual: undefined },
-        scale: 0.70,
+        scale: 0.40,
         pos: {
             x: -0,
             y: 0,
@@ -59,7 +59,7 @@ const game = {
                 air: 0.002,
                 framesToMax: 10,
                 decay: 0.9,
-                speedPenalty: false
+                speedPenalty: true
             },
             turning: {
                 ground:{
@@ -283,7 +283,7 @@ const game = {
             sky.style.backgroundSize = `${vw() * skyWidth}px`;
             sky.style.backgroundPositionX = `${-this.rot.z / tau * skyWidth * vw() + vw_2()}px`;
             sky.style.backgroundPositionY = `${horizon - parseFloat(getComputedStyle(sky).backgroundSize.split(' ')[0]) / game.skyRatio}px`;
-            document.body.style.backgroundImage = `linear-gradient(#f8e890 ${horizon - 10}px, #009F00 ${horizon + 10}px)`;
+            document.getElementById("viewport").style.backgroundImage = `linear-gradient(#f8e890 ${horizon - 10}px, #009F00 ${horizon + 10}px)`;
 
         }
     },
@@ -297,6 +297,8 @@ const game = {
         sky.style.backgroundImage = `url('${sky.src}')`;
 
         this.p1.init();
+        document.getElementById("viewport").style.width = `${vw()}px`;
+        document.getElementById("viewport").style.height = `${vh()}px`;
 
 
         window.requestAnimationFrame(game.step);
