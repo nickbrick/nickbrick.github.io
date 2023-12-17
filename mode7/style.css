@@ -26,7 +26,7 @@ body {
 .sprite.logical {
     width: 1px;
     height: 1px;
-    outline: 3px solid red;
+    /* outline: 3px solid red; */
 }
 
 .sprite.shadow{
