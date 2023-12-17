@@ -49,14 +49,14 @@ const game = {
         config: {
             jump: 3.5,
             acceleration: 0.03,
-            accelerationBalance: 0.8205, // 0 → track, 1 → heading
+            accelerationBalance: 0.0005205, // 0 → track, 1 → heading
             braking: 0.080,
-            friction: { base: 0.988, side: 0.041 },
+            friction: { base: 0.988, side: 0.0251 },
             reverse: -0.86,
             resting: { vel: 0.1, dVel: 0.01 },
             steering: {
-                ground: 0.001,
-                air: 0.002,
+                ground: 0.00071,
+                air: 0.0017,
                 framesToMax: 10,
                 decay: 0.9,
                 speedPenalty: true
@@ -100,7 +100,8 @@ const game = {
             }
 
             { // velocity
-                let basePower = (game.controls.forward.frame > 0) * this.grounded() * this.config.acceleration;
+                let angleCurve = Math.max(0, Math.sin(Math.abs(this.angle())-0.9)) + 1;
+                let basePower = (game.controls.forward.frame > 0) * this.grounded() * this.config.acceleration * angleCurve;
                 let vel = { x: (this.vel.h+basePower) * Math.sin(this.track), y: -(this.vel.h+basePower) * Math.cos(this.track) }
                 let power = { x: basePower * Math.sin(this.heading), y: -basePower * Math.cos(this.heading) };
                 let newVel = { x: power.x + vel.x, y: power.y + vel.y };
@@ -111,7 +112,8 @@ const game = {
                 this.dVel.h = Math.hypot(newVel.x, newVel.y) - this.vel.h;
                 this.dVel.h += (game.controls.back.frame > 0) * (-this.config.braking);
                 this.vel.h += this.dVel.h;
-                this.vel.h *= this.config.friction.base * Math.cos(this.turn() * this.vel.h * this.config.friction.side);
+                if (this.grounded()) 
+                    this.vel.h *= this.config.friction.base * Math.cos(this.turn() * this.vel.h * this.config.friction.side);
                 this.vel.h = Math.max(this.vel.h, this.config.reverse);
                 if (Math.abs(this.vel.h) < this.config.resting.vel && Math.abs(this.dVel.h) < this.config.resting.dVel)
                     this.vel.h = 0;
@@ -211,7 +213,7 @@ const game = {
                         this[name].frame = frame;
                 }
             });
-            //console.log(event.keyCode);
+            // console.log(event.keyCode);
         },
     },
     camera: {
@@ -291,14 +293,11 @@ const game = {
         document.addEventListener('keydown', (event) => this.controls.read(event, event.timeStamp));
         document.addEventListener('keyup', (event) => this.controls.read(event, 0));
         game.camera.trackedObject = game.p1;
+        this.p1.init();
 
         const sky = document.getElementById("sky");
         this.skyRatio = sky.naturalWidth / sky.naturalHeight;
         sky.style.backgroundImage = `url('${sky.src}')`;
-
-        this.p1.init();
-        document.getElementById("viewport").style.width = `${vw()}px`;
-        document.getElementById("viewport").style.height = `${vh()}px`;
 
 
         window.requestAnimationFrame(game.step);
@@ -313,9 +312,10 @@ const game = {
         game.camera.draw();
 
 
+        document.getElementById("viewport").style.width = `${vw()}px`;
+        document.getElementById("viewport").style.height = `${vh()}px`;
 
 
-        console.log(vw());
         window.requestAnimationFrame(game.step);
     },
 };

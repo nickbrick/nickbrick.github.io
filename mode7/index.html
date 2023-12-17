@@ -17,19 +17,31 @@
         </div>
     </div>
     <div id="hud" class="screen">
-        <div><span>camera.rot.x</span><input type="range" name="camera.rot.x" min="-90" max="0" value="-80"
-                onchange="this.setAttribute('value',this.value);"></div>
-        <div><span>camera.height</span><input type="range" name="camera.height" min="0" max="90" value="27"
-                onchange="this.setAttribute('value',this.value);"></div>
-        <div><span>camera.offset</span><input type="range" name="camera.offset" min="-20" max="20" value="7"
-                onchange="this.setAttribute('value',this.value);"></div>
-        <div><span>camera.distance</span><input type="range" name="camera.distance" min="20" max="200" value="92"
-                onchange="this.setAttribute('value',this.value);"></div>
-        <div><span>camera.speed</span><input type="range" name="camera.speed" min="0" max="1" value="0.10" step="0.01"
-                onchange="this.setAttribute('value',this.value);"></div>
-        <div><span>camera.fov</span><input type="range" name="camera.fov" min="60" max="130" value="86" step="2"
-                onchange="this.setAttribute('value',this.value);"></div>
-        <!-- <hr style="width: 100vw; position: fixed; top: 50vh; margin: 0;"> -->
+        <div id="sliders">
+            <div><span>camera.rot.x</span><input type="range" name="camera.rot.x" min="-90" max="0" value="-80"
+                    onchange="this.setAttribute('value',this.value);"></div>
+            <div><span>camera.height</span><input type="range" name="camera.height" min="0" max="90" value="27"
+                    onchange="this.setAttribute('value',this.value);"></div>
+            <div><span>camera.offset</span><input type="range" name="camera.offset" min="-20" max="20" value="7"
+                    onchange="this.setAttribute('value',this.value);"></div>
+            <div><span>camera.distance</span><input type="range" name="camera.distance" min="20" max="200" value="92"
+                    onchange="this.setAttribute('value',this.value);"></div>
+            <div><span>camera.speed</span><input type="range" name="camera.speed" min="0" max="1" value="0.10"
+                    step="0.01" onchange="this.setAttribute('value',this.value);"></div>
+            <div><span>camera.fov</span><input type="range" name="camera.fov" min="60" max="130" value="86" step="2"
+                    onchange="this.setAttribute('value',this.value);"></div>
+            <!-- <hr style="width: 100vw; position: fixed; top: 50vh; margin: 0;"> -->
+        </div>
+        <div id="osd">
+            <div class="osd-group">
+                <div class="osd-btn" ontouchstart="{document.dispatchEvent(new KeyboardEvent('keydown', {keyCode: 37}));}" ontouchend="{document.dispatchEvent(new KeyboardEvent('keyup', {keyCode: 37}));}">◀</div>
+                <div class="osd-btn" ontouchstart="{document.dispatchEvent(new KeyboardEvent('keydown', {keyCode: 39}));}" ontouchend="{document.dispatchEvent(new KeyboardEvent('keyup', {keyCode: 39}));}">▶</div>
+            </div>
+            <div class="osd-group">
+                <div class="osd-btn" ontouchstart="{document.dispatchEvent(new KeyboardEvent('keydown', {keyCode: 38}));}" ontouchend="{document.dispatchEvent(new KeyboardEvent('keyup', {keyCode: 38}));}">🅱</div>
+                <div class="osd-btn" ontouchstart="{document.dispatchEvent(new KeyboardEvent('keydown', {keyCode: 32}));}" ontouchend="{document.dispatchEvent(new KeyboardEvent('keyup', {keyCode: 32}));}">🅰</div>
+            </div>
+        </div>
     </div>
 </body>
 <script src="game.js"></script>
