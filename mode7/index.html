@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-
+<!-- Credits:
+Map: https://www.snesmaps.com/maps/SuperMarioKart/SuperMarioKartMapFlowerCup5.html
+Sprites: https://www.superluigibros.com/images/sprites/snes/smk/playablechars.gif
+Skybox: https://www.spriters-resource.com/fullview/85014/
+Compass: https://codepen.io/barzik/pen/WpbJWM
+Intended for educational use. -->
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
@@ -13,33 +18,87 @@
             <img id="map" src="SuperMarioKartMapFlowerCup5.png">
         </div>
         <div id="sprites" class="screen">
-            <img id="p1" class="sprite" src="toad.png">
         </div>
     </div>
     <div id="hud" class="screen">
         <div id="sliders">
-            <div><span>camera.rot.x</span><input type="range" name="camera.rot.x" min="-90" max="0" value="-80"
+            <div><span>Angle</span><input type="range" name="camera.rot.x" min="-90" max="0" value="-80"
                     onchange="this.setAttribute('value',this.value);"></div>
-            <div><span>camera.height</span><input type="range" name="camera.height" min="0" max="90" value="27"
+            <div><span>Height</span><input type="range" name="camera.height" min="0" max="90" value="27"
                     onchange="this.setAttribute('value',this.value);"></div>
-            <div><span>camera.offset</span><input type="range" name="camera.offset" min="-20" max="20" value="7"
+            <div><span>Offset</span><input type="range" name="camera.offset" min="-20" max="20" value="7"
                     onchange="this.setAttribute('value',this.value);"></div>
-            <div><span>camera.distance</span><input type="range" name="camera.distance" min="20" max="200" value="92"
+            <div><span>Distance</span><input type="range" name="camera.distance" min="20" max="200" value="92"
                     onchange="this.setAttribute('value',this.value);"></div>
-            <div><span>camera.speed</span><input type="range" name="camera.speed" min="0" max="1" value="0.10"
+            <div><span>Speed</span><input type="range" name="camera.speed" min="0" max="1" value="0.10"
                     step="0.01" onchange="this.setAttribute('value',this.value);"></div>
-            <div><span>camera.fov</span><input type="range" name="camera.fov" min="60" max="130" value="86" step="2"
+            <div><span>VFOV</span><input type="range" name="camera.fov" min="60" max="130" value="86" step="2"
                     onchange="this.setAttribute('value',this.value);"></div>
-            <!-- <hr style="width: 100vw; position: fixed; top: 50vh; margin: 0;"> -->
+            <button value="1" onclick="{game.debug(this.value);this.innerText = `Debug${(this.value^=1) ? '' : 'n\'t'}`; }">Debug</button>
+        </div>
+        <div id="debug">
+            <hr style="width: 100vw; position: fixed; top: 50vh; margin: 0;">
+            <hr style="width: 100vw; position: fixed; top: 50vh; margin: 0; transform: rotate(90deg);">
+            <div class="compass-container">
+                <div>
+                    <div id="bar-steer" class="bar">.</div>
+                    <div id="bar-turn" class="bar">.</div>
+                </div>
+                <div class="compass">
+                    <div id="arrow-head" class="arrow"><svg viewBox="0 0 885.387 885.385"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <polygon fill="#1C7894" points="403.696,440.594 446.114,127.207 488.531,440.594"
+                                transform="matrix(1, 0, 0, 1, -7.105427357601002e-15, 0)" />
+                            <circle fill="#1C7894" cx="446.115" cy="444.11" r="12.501"
+                                transform="matrix(1, 0, 0, 1, -7.105427357601002e-15, 0)" />
+                            <circle fill="#1C7894" cx="446.114" cy="444.11" r="9"
+                                transform="matrix(1, 0, 0, 1, -7.105427357601002e-15, 0)" />
+                            <polygon points="399.688,440.594 442.106,127.208 484.522,440.594"
+                                style="fill: rgb(255, 0, 0);"
+                                transform="matrix(1, 0, 0, 1, -7.105427357601002e-15, 0)" />
+                            <circle fill="#1C7894" cx="442.106" cy="444.111" r="12.501"
+                                transform="matrix(1, 0, 0, 1, -7.105427357601002e-15, 0)" />
+                            <circle fill="#408AA7" cx="442.106" cy="444.111" r="9"
+                                transform="matrix(1, 0, 0, 1, -7.105427357601002e-15, 0)" />
+                        </svg></div>
+                    <div id="arrow-track" class="arrow" style="scale: 0.8;">
+                        <?xml version="1.0" encoding="utf-8"?>
+                        <svg viewBox="0 0 885.387 885.385" xmlns="http://www.w3.org/2000/svg">
+                            <polygon fill="#1C7894" points="403.696,440.594 446.114,127.207 488.531,440.594"
+                                transform="matrix(1, 0, 0, 1, -7.105427357601002e-15, 0)" />
+                            <circle fill="#1C7894" cx="446.115" cy="444.11" r="12.501"
+                                transform="matrix(1, 0, 0, 1, -7.105427357601002e-15, 0)" />
+                            <circle fill="#1C7894" cx="446.114" cy="444.11" r="9"
+                                transform="matrix(1, 0, 0, 1, -7.105427357601002e-15, 0)" />
+                            <polygon points="399.688,440.594 442.106,127.208 484.522,440.594"
+                                style="fill: rgb(0, 255, 48);"
+                                transform="matrix(1, 0, 0, 1, -7.105427357601002e-15, 0)" />
+                            <circle fill="#1C7894" cx="442.106" cy="444.111" r="12.501"
+                                transform="matrix(1, 0, 0, 1, -7.105427357601002e-15, 0)" />
+                            <circle fill="#408AA7" cx="442.106" cy="444.111" r="9"
+                                transform="matrix(1, 0, 0, 1, -7.105427357601002e-15, 0)" />
+                        </svg>
+                    </div>
+                    <div id="disc" class="disc" id="compassDiscImg"></div>
+                </div>
+            </div>
         </div>
         <div id="osd">
             <div class="osd-group">
-                <div class="osd-btn" ontouchstart="{document.dispatchEvent(new KeyboardEvent('keydown', {keyCode: 37}));}" ontouchend="{document.dispatchEvent(new KeyboardEvent('keyup', {keyCode: 37}));}">◀</div>
-                <div class="osd-btn" ontouchstart="{document.dispatchEvent(new KeyboardEvent('keydown', {keyCode: 39}));}" ontouchend="{document.dispatchEvent(new KeyboardEvent('keyup', {keyCode: 39}));}">▶</div>
+                <div class="osd-btn"
+                    ontouchstart="{document.dispatchEvent(new KeyboardEvent('keydown', {keyCode: 37}));}"
+                    ontouchend="{document.dispatchEvent(new KeyboardEvent('keyup', {keyCode: 37}));}">◀</div>
+                <div class="osd-btn"
+                    ontouchstart="{document.dispatchEvent(new KeyboardEvent('keydown', {keyCode: 39}));}"
+                    ontouchend="{document.dispatchEvent(new KeyboardEvent('keyup', {keyCode: 39}));}">▶</div>
             </div>
             <div class="osd-group">
-                <div class="osd-btn" ontouchstart="{document.dispatchEvent(new KeyboardEvent('keydown', {keyCode: 38}));}" ontouchend="{document.dispatchEvent(new KeyboardEvent('keyup', {keyCode: 38}));}">🅱</div>
-                <div class="osd-btn" ontouchstart="{document.dispatchEvent(new KeyboardEvent('keydown', {keyCode: 32}));}" ontouchend="{document.dispatchEvent(new KeyboardEvent('keyup', {keyCode: 32}));}">🅰</div>
+                <div class="osd-btn"
+                    ontouchstart="{document.dispatchEvent(new KeyboardEvent('keydown', {keyCode: 38}));}"
+                    ontouchend="{document.dispatchEvent(new KeyboardEvent('keyup', {keyCode: 38}));}">🅱</div>
+                <div class="osd-btn"
+                    ontouchstart="{document.dispatchEvent(new KeyboardEvent('keydown', {keyCode: 32}));}"
+                    ontouchend="{document.dispatchEvent(new KeyboardEvent('keyup', {keyCode: 32}));}">🅰</div>
             </div>
         </div>
     </div>
