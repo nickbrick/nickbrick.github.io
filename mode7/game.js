@@ -5,7 +5,7 @@ const rad2deg = 57.295780
 const deg2rad = 0.017453
 const epsilon = 0.0001;
 const g = 0.41 * 60 * 60;
-const vw = () => window.innerWidth; // resolution / dpr
+const vw = () => window.innerWidth ; // resolution / dpr
 const vw_2 = () => vw() / 2;
 const vh = () => window.innerHeight;
 const vh_2 = () => vh() / 2;
@@ -366,7 +366,7 @@ const game = {
             game.camera.draw();
             drawCompass();
 
-            document.getElementById("viewport").style.width = `${vw()}px`;
+            document.getElementById("viewport").style.width =  `${vw()}px`;
             document.getElementById("viewport").style.height = `${vh()}px`;
         }
         window.requestAnimationFrame(game.step);

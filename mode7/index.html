@@ -7,11 +7,12 @@ Compass: https://codepen.io/barzik/pen/WpbJWM
 Intended for educational use. -->
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div id="viewport" style="overflow: hidden;">
+    <div id="viewport" style="overflow: hidden; position: absolute;">
         <img src="skyback.png" id="sky" style="background-position-y: 30vh;">
         <div id="world">
             <!-- <iframe id="map" width="4250" height="3500" src="https://www.openstreetmap.org/export/embed.html?bbox=6.8898868560791025%2C50.33258689935539%2C7.014169692993165%2C50.385592390800554&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/#map=14/50.3591/6.9520">View Larger Map</a></small> -->
@@ -84,7 +85,7 @@ Intended for educational use. -->
             </div>
         </div>
         <div id="osd">
-            <div class="osd-group">
+            <div class="osd-group" style="margin-right: auto;">
                 <div class="osd-btn"
                     ontouchstart="{document.dispatchEvent(new KeyboardEvent('keydown', {keyCode: 37}));}"
                     ontouchend="{document.dispatchEvent(new KeyboardEvent('keyup', {keyCode: 37}));}">◀</div>
@@ -92,7 +93,7 @@ Intended for educational use. -->
                     ontouchstart="{document.dispatchEvent(new KeyboardEvent('keydown', {keyCode: 39}));}"
                     ontouchend="{document.dispatchEvent(new KeyboardEvent('keyup', {keyCode: 39}));}">▶</div>
             </div>
-            <div class="osd-group">
+            <div class="osd-group" style="margin-left: auto;">
                 <div class="osd-btn"
                     ontouchstart="{document.dispatchEvent(new KeyboardEvent('keydown', {keyCode: 38}));}"
                     ontouchend="{document.dispatchEvent(new KeyboardEvent('keyup', {keyCode: 38}));}">🅱</div>
