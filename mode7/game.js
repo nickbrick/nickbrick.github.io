@@ -5,7 +5,7 @@ const rad2deg = 57.295780
 const deg2rad = 0.017453
 const epsilon = 0.0001;
 const g = 0.41 * 60 * 60;
-const vw = () => window.innerWidth ; // resolution / dpr
+const vw = () => window.innerWidth; // resolution / dpr
 const vw_2 = () => vw() / 2;
 const vh = () => window.innerHeight;
 const vh_2 = () => vh() / 2;
@@ -206,33 +206,38 @@ class Sprite {
         let jump = this.pos.z * (game.camera.perspective / dot) * Math.sin(game.camera.rot.x);
         this.elms.visual.style.backgroundPositionX = `${-frame * frameSize}px`;
         this.elms.visual.style.zIndex = Math.round(100000 / dot);
+        let x = this.toScreen().x - parseFloat(getComputedStyle(this.elms.visual).width) / 2;
+        let y = this.toScreen().y - parseFloat(getComputedStyle(this.elms.visual).width) / 2 + jump;
+        let finalScale = this.scale * Math.max((game.camera.perspective / dot), 0);
         this.elms.visual.style.transform = `
-            translateX(${this.toScreen().x - parseFloat(getComputedStyle(this.elms.visual).width) / 2}px)
-            translateY(${this.toScreen().y - parseFloat(getComputedStyle(this.elms.visual).width) / 2 + jump}px)
+            translateX(${x}px)
+            translateY(${y}px)
             translateZ(0px)
-            scale(${this.scale * Math.max((game.camera.perspective / dot), 0)})
+            scale(${finalScale})
             translateY(${this.elms.visual.naturalHeight * (this.offset - 0.5)}px)
             scaleX(${sign})
             `;
+        this.elms.visualWrapper.style.transformOrigin = `${x}px ${y}px`;
+        this.elms.visualWrapper.style.width = `${this.elms.visual.naturalHeight * finalScale}px`;
+        this.elms.visualWrapper.style.height = `${this.elms.visual.naturalHeight * finalScale}px`;
     }
-
 }
 
 const game = {
     stop: function () { this.step = function () { }; },
-    debug: function (set){
-        if (parseInt(set)){
-            var lnk=document.createElement('link');
+    debug: function (set) {
+        if (parseInt(set)) {
+            var lnk = document.createElement('link');
             lnk.id = "debug-css";
-            lnk.href='debug.css';
-            lnk.rel='stylesheet';
-            lnk.type='text/css';
-            (document.head||document.documentElement).appendChild(lnk);
+            lnk.href = 'debug.css';
+            lnk.rel = 'stylesheet';
+            lnk.type = 'text/css';
+            (document.head || document.documentElement).appendChild(lnk);
 
             document.getElementById("sky").style.backgroundImage = "url('skyback1.png')";
         }
-        else{
-            (document.head||document.documentElement).removeChild(document.getElementById("debug-css"));
+        else {
+            (document.head || document.documentElement).removeChild(document.getElementById("debug-css"));
             document.getElementById("sky").style.backgroundImage = "url('skyback.png')";
 
         }
@@ -366,7 +371,7 @@ const game = {
             game.camera.draw();
             drawCompass();
 
-            document.getElementById("viewport").style.width =  `${vw()}px`;
+            document.getElementById("viewport").style.width = `${vw()}px`;
             document.getElementById("viewport").style.height = `${vh()}px`;
         }
         window.requestAnimationFrame(game.step);

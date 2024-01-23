@@ -116,24 +116,14 @@ input[type=range]:after {
         transform: translate(0);
     }
 
-    20% {
-        -webkit-transform: translate(0px, -2px);
-        transform: translate(0px, -2px);
+    25% {
+        -webkit-transform: translate(0, -1%);
+        transform: translate(0, -1%);
     }
-
-    40% {
-        -webkit-transform: translate(0px, 2px);
-        transform: translate(0px, 2px);
-    }
-
-    60% {
-        -webkit-transform: translate(-0px, 2px);
-        transform: translate(-0px, 2px);
-    }
-
-    80% {
-        -webkit-transform: translate(-0px, -2px);
-        transform: translate(-0px, -2px);
+    
+    75% {
+        -webkit-transform: translate(0, +1%);
+        transform: translate(0, +1%);
     }
 
     100% {
@@ -145,27 +135,17 @@ input[type=range]:after {
 @keyframes vibrate-2 {
     0% {
         -webkit-transform: translate(0);
-        transform: translate(0)
+        transform: translate(0);
     }
 
-    20% {
-        -webkit-transform: translate(0px, -2px);
-        transform: translate(0px, -2px);
+    25% {
+        -webkit-transform: translate(0, -1%);
+        transform: translate(0, -1%);
     }
-
-    40% {
-        -webkit-transform: translate(0px, 2px);
-        transform: translate(0px, 2px);
-    }
-
-    60% {
-        -webkit-transform: translate(-0px, 2px);
-        transform: translate(-0px, 2px);
-    }
-
-    80% {
-        -webkit-transform: translate(-0px, -2px);
-        transform: translate(-0px, -2px);
+    
+    75% {
+        -webkit-transform: translate(0, +1%);
+        transform: translate(0, +1%);
     }
 
     100% {
