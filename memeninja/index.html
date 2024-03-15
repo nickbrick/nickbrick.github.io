@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Meme NINJA</title>
+</head>
+
+<body>
+    <canvas id="c" style="outline: 1px #e50012 solid;" width="512" height="512"> </canvas>
+    <div>
+        <input id="t" type="text" onchange="window.location.search = `&t=${this.value}`;">
+        <ol>
+            <li>Type funny meme</li>
+            <li>Press enter</li>
+            <li>Right click</li>
+            <li>????</li>
+            <li>PROFIT!</li>
+        </ol>
+    </div>
+</body>
+<script>
+    let text = new URL(window.location.href).searchParams.get('t');
+    if (text == null) text = 'Meme NINJA';
+    t.value = text;
+    const canvas = document.getElementById("c");
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, 512, 512);
+    const imgRibbon = new Image();
+    imgRibbon.onload = () => {
+        ctx.drawImage(imgRibbon, 0, 100);
+    };
+    imgRibbon.src = "https://svgshare.com/i/14M9.svg";
+    const imgText = new Image();
+    imgText.onload = () => {
+        let w = imgText.width;
+        let h = imgText.height;
+        let s = Math.min(1, 512 / w);
+        let x = (512 - w * s) / 2;
+        let y = 70;
+        console.log(w);
+        ctx.drawImage(imgText, x, y, w * s, h);
+    };
+    ctx.globalCompositeOperation = "lighter";
+    imgText.src = `https://render.myfonts.net/fonts/font_rend.php?id=aae2836c38b0cc68f6830ef02f49e296&rt=${text}&rs=80&w=0&bg=000000&fg=FFFFFF`;
+</script>
+</html>
