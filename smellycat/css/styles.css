@@ -1,0 +1,231 @@
+:root {
+    --grey: #A0A9BA;
+    --accent: #EF7878;
+    --copyright: #E1E4EA;
+
+    --theme-text-dark: var(--color-white);
+    --theme-primary: var(--color-coral);
+    --theme-secondary: var(--color-violet);
+    --theme-text-light: var(--color-black);
+    --theme-background: var(--color-grey6);
+    --theme-border: var(--color-black);
+
+    --color-black: #000000;
+    --color-grey1: #555555;
+    --color-grey2: #A0A9BA;
+    --color-grey3: #CCCCCC;
+    --color-grey4: #D8D8D8;
+    --color-grey5: #E1E4EA;
+    --color-grey6: #EFF1F4;
+    --color-white: #FFFFFF;
+    --color-coral: #EF7878;
+    --color-coral-1: #e73c3c;
+    --color-coral-2: #e94a4a;
+    --color-coral-3: #eb5858;
+    --color-violet: #9784FF;
+}
+
+* {
+    font-family: "Manrope", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    font-optical-sizing: auto;
+    font-style: normal;
+    line-height: 27px;
+}
+
+h1 {
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    margin-bottom: 24px;
+}
+
+button {
+    min-width: 169px;
+    height: 48px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.28px;
+    margin-bottom: 40px;
+    
+}
+.subtitle {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.22px;
+    margin-bottom: 40px;
+}
+
+input::placeholder, textarea::placeholder {
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: -0.23px;
+}
+
+li.nav-item {
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 20px;
+    margin-right: 20px;
+    letter-spacing: -0.17px;
+    
+}
+header li.nav-item:last-of-type {
+    margin-right: 0;
+}
+
+footer li.nav-item a{
+    color: var(--color-white);
+    
+}
+
+label, .col-form-label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.17px;
+}
+
+.optional{
+    color:var(--theme-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    float: inline-end;
+}
+
+input[type=checkbox] + label {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.2px;
+}
+
+.copyright {
+    text-align: center;
+    color: var(--color-grey5);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: -0.15px;
+    height: 87px;
+    padding-bottom: 24px;
+    margin-bottom: 0;
+}
+.copyright::before {
+    display: inline-block;
+    height: 100%;
+    content: '';
+  }
+header {
+    background-color: var(--color-white);
+    min-height: 48px;
+    border-bottom: 1px solid var(--color-grey2);
+}
+
+
+#body {
+    background-color: var(--theme-background);
+    padding: 80px 0;
+    min-height:1179px;
+}
+
+#address-area{
+    text-align: right;
+}
+hr {
+    color: var(--color-grey4);
+    border-top: 2px solid;
+    opacity: 1;
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+
+input {
+    height: 40px;
+}
+textarea{
+    margin-bottom: 26px;
+}
+.form-check {
+margin-bottom: 46px;
+}
+.form-check-input[type=checkbox] {
+    width: 24px;
+    height: 24px;
+    border-radius: 5px;
+    margin-right: 16px;
+}
+.form-control{
+    border-radius: 5px;
+    margin-bottom: 32px;
+}
+.input-small {
+    max-width: 172px;
+}
+
+.input-medium {
+    max-width: 288px;
+}
+
+.input-large {
+    max-width: 357px;
+}
+
+.map-embed{
+    margin-bottom: 45px;
+}
+footer {
+    min-height: 174px;
+    background-color: var(--color-black);
+    padding-top: 57px;
+}
+footer nav {
+    min-height: 48px;
+}
+.social-icon{
+    width: 48px;
+    height: 48px;
+    padding: 18px;;
+    color: var(--color-white);
+    margin:4px;
+}
+
+.btn-primary {
+    background-color: var(--theme-primary);
+}
+
+.btn-coral {
+    color: var(--theme-text-dark);
+    background-color: var(--color-coral);
+    border-color: var(--color-coral);
+
+}
+
+.btn-coral:hover {
+    color: var(--theme-text-dark);
+    background-color: var(--color-coral-3);
+    border-color: var(--color-coral-3);
+}
+
+.btn-coral:focus,
+.btn-coral.focus {
+    box-shadow: 0 0 0 0.2rem rgba(239, 120, 120, 0.5);
+}
+
+.btn-coral:not(:disabled):not(.disabled):active,
+.btn-coral:not(:disabled):not(.disabled).active,
+.show>.btn-coral.dropdown-toggle {
+    color: var(--theme-text-dark);
+    background-color: var(--color-coral-3);
+    border-color: var(--color-coral-1);
+}
+
+.btn-coral:not(:disabled):not(.disabled):active:focus,
+.btn-coral:not(:disabled):not(.disabled).active:focus,
+.show>.btn-coral.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(239, 120, 120, 0.5);
+}
