@@ -36,6 +36,10 @@
       transform: scale(3.3);
     }
 
+    .none {
+      visibility: hidden;
+    }
+
     .strip {
       display: flex;
       width: fit-content;
@@ -44,6 +48,7 @@
     .toolbar {
       display: none;
       margin: 20px;
+
     }
 
     a,
@@ -56,6 +61,31 @@
     }
   </style>
 </head>
+<template class="panel-container">
+  <a id="link{n}" target="_blank">
+    <div style="overflow: hidden;"><img class="panel" id="panel{n}"></img></div>
+  </a>
+  <div class="toolbar">
+      <a href="#" onclick="swap({n}, -1);">&leftarrow;</a>
+        <a href="#" onclick="hold({n});">Hold</a>
+        <a href="#" onclick="unhold({n});">Free</a>
+        <a href="#" onclick="roll({n});">Roll</a>
+        <a href="#" onclick="megaroll({n});">Megaroll</a>
+      <a href="#" onclick="swap({n}, 1);">&rightarrow;</a>
+    <ul>
+      <li><a href="#" onclick="hot({n},'none');">(None)</a></li>
+      <li><a href="#" onclick="hot({n},'blender');">Blender</a></li>
+      <li><a href="#" onclick="hot({n},'nature');">Graphic nature</a></li>
+      <!-- <li><a href="#" onclick="hot({n},'nopics');">No pictures</a></li> -->
+      <li><a href="#" onclick="hot({n},'five');">Five minutes later</a></li>
+      <li><a href="#" onclick="hot({n},'dead');">Dead</a></li>
+      <li><a href="#" onclick="hot({n},'concern');">Concern</a></li>
+      <li><a href="#" onclick="hot({n},'yeet');">Yeet</a></li>
+      <li><a href="#" onclick="hot({n},'observe');">Observe</a></li>
+      <li><a href="#" onclick="hot({n},'nightmare');">Nightmare</a></li>
+    </ul>
+  </div>
+</template>
 
 <body id="body">
   <div class="linkbar">
@@ -66,72 +96,8 @@
     <a href="">Refresh</a>
   </div>
   <div class="strip">
-    <div class="panel-container">
-      <a id="link0" target="_blank">
-        <div style="overflow: hidden;"><img class="panel" id="panel0"></img></div>
-      </a>
-      <div class="toolbar">
-        <a href="#" onclick="hold(0);">Hold</a>
-        <a href="#" onclick="unhold(0);">Unhold</a>
-        <a href="#" onclick="roll(0);">Roll</a>
-        <a href="#" onclick="megaroll(0);">Megaroll</a>
-        <ul>
-          <li><a href="#" onclick="hot(0,'blender');">Blender</a></li>
-          <li><a href="#" onclick="hot(0,'nature');">Graphic nature</a></li>
-          <li><a href="#" onclick="hot(0,'nopics');">No pictures</a></li>
-          <li><a href="#" onclick="hot(0,'five');">Five minutes later</a></li>
-          <li><a href="#" onclick="hot(0,'dead');">Dead</a></li>
-          <li><a href="#" onclick="hot(0,'concern');">Concern</a></li>
-          <li><a href="#" onclick="hot(0,'yeet');">Yeet</a></li>
-          <li><a href="#" onclick="hot(0,'observe');">Observe</a></li>
-          <li><a href="#" onclick="hot(0,'nightmare');">Nightmare</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="panel-container">
-      <a id="link1" target="_blank">
-        <div style="overflow: hidden;"><img class="panel" id="panel1"></img></div>
-      </a>
-      <div class="toolbar">
-        <a href="#" onclick="hold(1);">Hold</a>
-        <a href="#" onclick="unhold(1);">Unhold</a>
-        <a href="#" onclick="roll(1);">Roll</a>
-        <a href="#" onclick="megaroll(1);">Megaroll</a>
-        <ul>
-          <li><a href="#" onclick="hot(1,'blender');">Blender</a></li>
-          <li><a href="#" onclick="hot(1,'nature');">Graphic nature</a></li>
-          <li><a href="#" onclick="hot(1,'nopics');">No pictures</a></li>
-          <li><a href="#" onclick="hot(1,'five');">Five minutes later</a></li>
-          <li><a href="#" onclick="hot(1,'dead');">Dead</a></li>
-          <li><a href="#" onclick="hot(1,'concern');">Concern</a></li>
-          <li><a href="#" onclick="hot(1,'yeet');">Yeet</a></li>
-          <li><a href="#" onclick="hot(1,'observe');">Observe</a></li>
-          <li><a href="#" onclick="hot(1,'nightmare');">Nightmare</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="panel-container">
-      <a id="link2" target="_blank">
-        <div style="overflow: hidden;"><img class="panel" id="panel2"></img></div>
-      </a>
-      <div class="toolbar">
-        <a href="#" onclick="hold(2);">Hold</a>
-        <a href="#" onclick="unhold(2);">Unhold</a>
-        <a href="#" onclick="roll(2);">Roll</a>
-        <a href="#" onclick="megaroll(2);">Megaroll</a>
-        <ul>
-          <li><a href="#" onclick="hot(2,'blender');">Blender</a></li>
-          <li><a href="#" onclick="hot(2,'nature');">Graphic nature</a></li>
-          <li><a href="#" onclick="hot(2,'nopics');">No pictures</a></li>
-          <li><a href="#" onclick="hot(2,'five');">Five minutes later</a></li>
-          <li><a href="#" onclick="hot(2,'dead');">Dead</a></li>
-          <li><a href="#" onclick="hot(2,'concern');">Concern</a></li>
-          <li><a href="#" onclick="hot(2,'yeet');">Yeet</a></li>
-          <li><a href="#" onclick="hot(2,'observe');">Observe</a></li>
-          <li><a href="#" onclick="hot(2,'nightmare');">Nightmare</a></li>
-        </ul>
-      </div>
-    </div>
+
+  </div>
   </div>
   <script>
     randomDate = function () {
@@ -175,6 +141,11 @@
       else if (special == 'megarandom') {
         n0 = randoms[n1 + 1][1];
         d = randoms[n1 + 1][0];
+      }
+      else if (special == 'none') {
+        n0 = n1;
+        d = randoms[n1 + 1][0];
+        document.getElementById(`panel${n1}`).classList.add('none');
       }
       else if (special == 'blender') {
         n0 = 0;
@@ -223,87 +194,104 @@
 
       setPanel(d, n0, n1, ext);
     }
-    removeParam = function (key, sourceURL) {
-      // sourceURL = window.location;
-      var rtn = sourceURL.split("?")[0],
-        param,
-        params_arr = [],
-        queryString = (sourceURL.indexOf("?") !== -1) ? sourceURL.split("?")[1] : "";
-      if (queryString !== "") {
-        params_arr = queryString.split("&");
-        for (var i = params_arr.length - 1; i >= 0; i -= 1) {
-          param = params_arr[i].split("=")[0];
-          if (param === key) {
-            params_arr.splice(i, 1);
-          }
-        }
-        if (params_arr.length) rtn = rtn + "?" + params_arr.join("&");
+
+    getLink = function (isPerma) {
+      let returnParams;
+      if (isPerma) {
+        bakePermaParams();
+        returnParams = permaParams;
       }
-      return rtn;
+      else {
+        returnParams = urlParams;
+      }
+      return `${window.location.origin}${window.location.pathname}?${returnParams.toString()}`;
     }
-    getPermalinkUrl = function () {
+
+    bakePermaParams = function () {
       ['d', 'p0', 'p1', 'p2'].forEach(function (param, index) {
         if (urlParams.has(param)) {
           value = urlParams.get(param);
           if (value == 'random') value = randoms[index][0];
           if (value == 'megarandom') value = randoms[index].join('-');
-          linkParams.push(`${param}=${value}`);
+          permaParams.set(param, value);
         }
       });
-      return `${window.location.origin}${window.location.pathname}?${linkParams.join('&')}`;
     }
+
     generateLink = function () {
-      document.getElementById('permalink').href = getPermalinkUrl();
-    }
-    unhold = function (n) {
-      url = window.location.href;
-      url = removeParam(`p${n}`, url);
-      window.location.href = url;
-    }
-    roll = function (n) {
-      url = window.location.href;
-      url = removeParam(`p${n}`, url);
-      url += `&p${n}=random`;
-      window.location.href = url;
-    }
-    megaroll = function (n) {
-      url = window.location.href;
-      url = removeParam(`p${n}`, url);
-      url += `&p${n}=megarandom`;
-      window.location.href = url;
+      document.getElementById('permalink').href = getLink(isPerma = true);
     }
     hold = function (n) {
       url = window.location.href;
       if (urlParams.has(`p${n}`)) {
         if (urlParams.get(`p${n}`) == 'random') {
-          url = removeParam(`p${n}`, url);
-          url += `&p${n}=${randoms[n + 1][0]}`;
+          urlParams.set(`p${n}`, `${randoms[n + 1][0]}`);
         }
         if (urlParams.get(`p${n}`) == 'megarandom') {
-          url = removeParam(`p${n}`, url);
-          url += `&p${n}=${randoms[n + 1].join('-')}`;
+          urlParams.set(`p${n}`, `${randoms[n + 1].join('-')}`);
         }
       }
-      else {
-        url += `&p${n}=${randoms[0][0]}-${n}`;
+      else if (urlParams.has('d')) {
+        d = urlParams.get('d');
+        if (d != "random")
+          urlParams.set(`p${n}`, `${d}-${n}`);
+        else {
+          urlParams.set(`p${n}`, `${randoms[0][0]}-${n}`);
+        }
       }
-      window.location.href = url;
+      window.location.href = getLink(isPerma = false);
     }
+    unhold = function (n) {
+      urlParams.delete(`p${n}`);
+      window.location.href = getLink(isPerma = false);
+    }
+    roll = function (n) {
+      urlParams.set(`p${n}`, 'random');
+      window.location.href = getLink(isPerma = false);
+    }
+    megaroll = function (n) {
+      urlParams.set(`p${n}`, 'megarandom');
+      window.location.href = getLink(isPerma = false);
+    }
+
     hot = function (n, panelName) {
       url = window.location.href;
-      url = removeParam(`p${n}`, url);
-      url += `&p${n}=${panelName}`;
-      window.location.href = url;
+      urlParams.set(`p${n}`, `${panelName}`);
+      window.location.href = getLink(isPerma = false);
     }
+    swap = function (n, dir) {
+      n_ = (((n + dir) % 3) + 3) % 3;
+      if (!urlParams.has(`p${n}`)) urlParams.set(`p${n}`, `${randoms[0][0]}-${n}`);
+      if (!urlParams.has(`p${n_}`)) urlParams.set(`p${n_}`, `${randoms[0][0]}-${n_}`);
+      bakePermaParams();
+      urlParams.set(`p${n_}`, `${permaParams.get(`p${n}`)}`);
+      urlParams.set(`p${n}`, `${permaParams.get(`p${n_}`)}`);
+      // urlParams.set(`p${n_}`, `${randoms[n + 1].join('-')}`);
+      // urlParams.set(`p${n}`, `${randoms[n_ + 1].join('-')}`);
+      window.location.href = getLink(isPerma = false);
+    }
+
     window.onload = function () {
+      temp = document.getElementsByTagName("template")[0];
+      tempText = temp.innerHTML;
+      for (let i = 0; i < 3; i++) {
+        let instanceText = tempText.replaceAll('{n}', i);
+        let instance = document.createElement('div');
+        instance.classList.add('panel-container');
+        instance.innerHTML = instanceText;
+        document.getElementsByClassName('strip')[0].appendChild(instance);
+      }
+
       urlParams = new URLSearchParams(window.location.search);
+      permaParams = new URLSearchParams(urlParams);
       if (!urlParams.has('d')) window.location = `?d=random`;
       randoms = [
         [randomDate(), null],
-        [randomDate(), Math.floor(Math.random() * 4)],
-        [randomDate(), Math.floor(Math.random() * 4)],
-        [randomDate(), Math.floor(Math.random() * 4)]];
-      linkParams = [];
+        [randomDate(), Math.floor(Math.random() * 3)],
+        [randomDate(), Math.floor(Math.random() * 3)],
+        [randomDate(), Math.floor(Math.random() * 3)]];
+
+
       resolvePanel(0);
       resolvePanel(1);
       resolvePanel(2);
