@@ -213,6 +213,9 @@
           value = urlParams.get(param);
           if (value == 'random') value = randoms[index][0];
           if (value == 'megarandom') value = randoms[index].join('-');
+          if (parseInt(value) && !value.includes('-'))  // panelless date
+            if (param.length == 2)
+              value += `-${param[1]}`;  
           permaParams.set(param, value);
         }
       });
