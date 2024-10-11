@@ -391,7 +391,7 @@ class BumperMachine extends PachinkoMachine {
 		let bumper_sets = Array(0);
 
 		const kTargetDrawRadius = (kHorizontalSpacing - kWallSpacing) / 2;
-		const kTargetColor = "rgba(0, 128, 255, 0.5)";
+		const kTargetColor = "rgba(0, 255, 255, 0.5)";
 		const kBottomTargetColor = "#8FF";
 		const kTargetHitboxRadius = Math.min(kTargetDrawRadius * 1.5 - kBallRadius);
 
