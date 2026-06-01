@@ -23,9 +23,17 @@
         input {
             max-width: 2em;
         }
-
+    
         span {
             font-family: monospace;
+        }
+    
+        .match {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: .5rem;
         }
     </style>
     <div class="container-sm" style="max-width: 840px;">
@@ -36,7 +44,7 @@
             </div>
             <div class="card-header">Group Winner</div>
             <div class="card-body d-flex flex-wrap justify-content-center gap-4">
-                <div name="group" class="card">
+                <div class="card group">
                     <div class="card-header"><span>GROUP A</span></div>
                     <div class="card-body">
                         <div class="form-check"><input class="form-check-input" type="radio" name="A" id="A0" value="mex"><label class="form-check-label" for="A0"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Mexico">MEX</span></label></div>
@@ -45,7 +53,7 @@
                         <div class="form-check"><input class="form-check-input" type="radio" name="A" id="A3" value="cze"><label class="form-check-label" for="A3"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Czech Republic">CZE</span></label></div>
                     </div>
                 </div>
-                <div name="group" class="card">
+                <div class="card group">
                     <div class="card-header"><span>GROUP B</span></div>
                     <div class="card-body">
                         <div class="form-check"><input class="form-check-input" type="radio" name="B" id="B0" value="can"><label class="form-check-label" for="B0"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Canada">CAN</span></label></div>
@@ -54,7 +62,7 @@
                         <div class="form-check"><input class="form-check-input" type="radio" name="B" id="B3" value="sui"><label class="form-check-label" for="B3"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Switzerland">SUI</span></label></div>
                     </div>
                 </div>
-                <div name="group" class="card">
+                <div class="card group">
                     <div class="card-header"><span>GROUP C</span></div>
                     <div class="card-body">
                         <div class="form-check"><input class="form-check-input" type="radio" name="C" id="C0" value="bra"><label class="form-check-label" for="C0"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Brazil">BRA</span></label></div>
@@ -63,7 +71,7 @@
                         <div class="form-check"><input class="form-check-input" type="radio" name="C" id="C3" value="sco"><label class="form-check-label" for="C3"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Scotland">SCO</span></label></div>
                     </div>
                 </div>
-                <div name="group" class="card">
+                <div class="card group">
                     <div class="card-header"><span>GROUP D</span></div>
                     <div class="card-body">
                         <div class="form-check"><input class="form-check-input" type="radio" name="D" id="D0" value="usa"><label class="form-check-label" for="D0"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="United States">USA</span></label></div>
@@ -72,7 +80,7 @@
                         <div class="form-check"><input class="form-check-input" type="radio" name="D" id="D3" value="tur"><label class="form-check-label" for="D3"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Turkey">TUR</span></label></div>
                     </div>
                 </div>
-                <div name="group" class="card">
+                <div class="card group">
                     <div class="card-header"><span>GROUP E</span></div>
                     <div class="card-body">
                         <div class="form-check"><input class="form-check-input" type="radio" name="E" id="E0" value="ger"><label class="form-check-label" for="E0"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Germany">GER</span></label></div>
@@ -81,7 +89,7 @@
                         <div class="form-check"><input class="form-check-input" type="radio" name="E" id="E3" value="ecu"><label class="form-check-label" for="E3"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Ecuador">ECU</span></label></div>
                     </div>
                 </div>
-                <div name="group" class="card">
+                <div class="card group">
                     <div class="card-header"><span>GROUP F</span></div>
                     <div class="card-body">
                         <div class="form-check"><input class="form-check-input" type="radio" name="F" id="F0" value="ned"><label class="form-check-label" for="F0"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Netherlands">NED</span></label></div>
@@ -90,7 +98,7 @@
                         <div class="form-check"><input class="form-check-input" type="radio" name="F" id="F3" value="tun"><label class="form-check-label" for="F3"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Tunisia">TUN</span></label></div>
                     </div>
                 </div>
-                <div name="group" class="card">
+                <div class="card group">
                     <div class="card-header"><span>GROUP G</span></div>
                     <div class="card-body">
                         <div class="form-check"><input class="form-check-input" type="radio" name="G" id="G0" value="bel"><label class="form-check-label" for="G0"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Belgium">BEL</span></label></div>
@@ -99,7 +107,7 @@
                         <div class="form-check"><input class="form-check-input" type="radio" name="G" id="G3" value="nzl"><label class="form-check-label" for="G3"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="New Zealand">NZL</span></label></div>
                     </div>
                 </div>
-                <div name="group" class="card">
+                <div class="card group">
                     <div class="card-header"><span>GROUP H</span></div>
                     <div class="card-body">
                         <div class="form-check"><input class="form-check-input" type="radio" name="H" id="H0" value="esp"><label class="form-check-label" for="H0"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Spain">ESP</span></label></div>
@@ -108,7 +116,7 @@
                         <div class="form-check"><input class="form-check-input" type="radio" name="H" id="H3" value="uru"><label class="form-check-label" for="H3"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Uruguay">URU</span></label></div>
                     </div>
                 </div>
-                <div name="group" class="card">
+                <div class="card group">
                     <div class="card-header"><span>GROUP I</span></div>
                     <div class="card-body">
                         <div class="form-check"><input class="form-check-input" type="radio" name="I" id="I0" value="fra"><label class="form-check-label" for="I0"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="France">FRA</span></label></div>
@@ -117,7 +125,7 @@
                         <div class="form-check"><input class="form-check-input" type="radio" name="I" id="I3" value="nor"><label class="form-check-label" for="I3"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Norway">NOR</span></label></div>
                     </div>
                 </div>
-                <div name="group" class="card">
+                <div class="card group">
                     <div class="card-header"><span>GROUP J</span></div>
                     <div class="card-body">
                         <div class="form-check"><input class="form-check-input" type="radio" name="J" id="J0" value="arg"><label class="form-check-label" for="J0"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Argentina">ARG</span></label></div>
@@ -126,7 +134,7 @@
                         <div class="form-check"><input class="form-check-input" type="radio" name="J" id="J3" value="jor"><label class="form-check-label" for="J3"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Jordan">JOR</span></label></div>
                     </div>
                 </div>
-                <div name="group" class="card">
+                <div class="card group">
                     <div class="card-header"><span>GROUP K</span></div>
                     <div class="card-body">
                         <div class="form-check"><input class="form-check-input" type="radio" name="K" id="K0" value="por"><label class="form-check-label" for="K0"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Portugal">POR</span></label></div>
@@ -135,7 +143,7 @@
                         <div class="form-check"><input class="form-check-input" type="radio" name="K" id="K3" value="col"><label class="form-check-label" for="K3"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="Colombia">COL</span></label></div>
                     </div>
                 </div>
-                <div name="group" class="card">
+                <div class="card group">
                     <div class="card-header"><span>GROUP L</span></div>
                     <div class="card-body">
                         <div class="form-check"><input class="form-check-input" type="radio" name="L" id="L0" value="eng"><label class="form-check-label" for="L0"><span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right" data-bs-content="England">ENG</span></label></div>
@@ -151,7 +159,7 @@
             <div class="card-header">Match Result</div>
             <div class="row card-body">
                 <div class="col-12 col-sm-4">
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Mexico">MEX</span>
                         <div class="d-flex align-items-center gap-1">
@@ -162,7 +170,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="South Africa">RSA</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="South Korea">KOR</span>
                         <div class="d-flex align-items-center gap-1">
@@ -173,7 +181,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Czech Republic">CZE</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Canada">CAN</span>
                         <div class="d-flex align-items-center gap-1">
@@ -184,7 +192,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Bosnia and Herzegovina">BIH</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="United States">USA</span>
                         <div class="d-flex align-items-center gap-1">
@@ -195,7 +203,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Paraguay">PAR</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Qatar">QAT</span>
                         <div class="d-flex align-items-center gap-1">
@@ -206,7 +214,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Switzerland">SUI</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Brazil">BRA</span>
                         <div class="d-flex align-items-center gap-1">
@@ -217,7 +225,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Morocco">MAR</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Haiti">HAI</span>
                         <div class="d-flex align-items-center gap-1">
@@ -228,7 +236,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Scotland">SCO</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Australia">AUS</span>
                         <div class="d-flex align-items-center gap-1">
@@ -239,7 +247,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Turkey">TUR</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Germany">GER</span>
                         <div class="d-flex align-items-center gap-1">
@@ -250,7 +258,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Curacao">CUW</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Netherlands">NED</span>
                         <div class="d-flex align-items-center gap-1">
@@ -261,7 +269,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Japan">JPN</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Ivory Coast">CIV</span>
                         <div class="d-flex align-items-center gap-1">
@@ -272,7 +280,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Ecuador">ECU</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Sweden">SWE</span>
                         <div class="d-flex align-items-center gap-1">
@@ -283,7 +291,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Tunisia">TUN</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Spain">ESP</span>
                         <div class="d-flex align-items-center gap-1">
@@ -294,7 +302,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Cape Verde">CPV</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Belgium">BEL</span>
                         <div class="d-flex align-items-center gap-1">
@@ -305,7 +313,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Egypt">EGY</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Saudi Arabia">KSA</span>
                         <div class="d-flex align-items-center gap-1">
@@ -316,7 +324,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Uruguay">URU</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Iran">IRN</span>
                         <div class="d-flex align-items-center gap-1">
@@ -327,7 +335,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="New Zealand">NZL</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="France">FRA</span>
                         <div class="d-flex align-items-center gap-1">
@@ -338,7 +346,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Senegal">SEN</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Iraq">IRQ</span>
                         <div class="d-flex align-items-center gap-1">
@@ -349,7 +357,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Norway">NOR</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Argentina">ARG</span>
                         <div class="d-flex align-items-center gap-1">
@@ -360,7 +368,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Algeria">ALG</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Austria">AUT</span>
                         <div class="d-flex align-items-center gap-1">
@@ -371,7 +379,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Jordan">JOR</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Portugal">POR</span>
                         <div class="d-flex align-items-center gap-1">
@@ -382,7 +390,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="DR Congo">COD</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="England">ENG</span>
                         <div class="d-flex align-items-center gap-1">
@@ -393,7 +401,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Croatia">CRO</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Ghana">GHA</span>
                         <div class="d-flex align-items-center gap-1">
@@ -404,7 +412,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Panama">PAN</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Uzbekistan">UZB</span>
                         <div class="d-flex align-items-center gap-1">
@@ -417,7 +425,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-4">
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Czech Republic">CZE</span>
                         <div class="d-flex align-items-center gap-1">
@@ -428,7 +436,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="South Africa">RSA</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Switzerland">SUI</span>
                         <div class="d-flex align-items-center gap-1">
@@ -439,7 +447,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Bosnia and Herzegovina">BIH</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Canada">CAN</span>
                         <div class="d-flex align-items-center gap-1">
@@ -450,7 +458,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Qatar">QAT</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Mexico">MEX</span>
                         <div class="d-flex align-items-center gap-1">
@@ -461,7 +469,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="South Korea">KOR</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="United States">USA</span>
                         <div class="d-flex align-items-center gap-1">
@@ -472,7 +480,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Australia">AUS</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Scotland">SCO</span>
                         <div class="d-flex align-items-center gap-1">
@@ -483,7 +491,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Morocco">MAR</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Brazil">BRA</span>
                         <div class="d-flex align-items-center gap-1">
@@ -494,7 +502,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Haiti">HAI</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Turkey">TUR</span>
                         <div class="d-flex align-items-center gap-1">
@@ -505,7 +513,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Paraguay">PAR</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Netherlands">NED</span>
                         <div class="d-flex align-items-center gap-1">
@@ -516,7 +524,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Sweden">SWE</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Germany">GER</span>
                         <div class="d-flex align-items-center gap-1">
@@ -527,7 +535,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Ivory Coast">CIV</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Ecuador">ECU</span>
                         <div class="d-flex align-items-center gap-1">
@@ -538,7 +546,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Curacao">CUW</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Tunisia">TUN</span>
                         <div class="d-flex align-items-center gap-1">
@@ -549,7 +557,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Japan">JPN</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Spain">ESP</span>
                         <div class="d-flex align-items-center gap-1">
@@ -560,7 +568,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Saudi Arabia">KSA</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Belgium">BEL</span>
                         <div class="d-flex align-items-center gap-1">
@@ -571,7 +579,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Iran">IRN</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Uruguay">URU</span>
                         <div class="d-flex align-items-center gap-1">
@@ -582,7 +590,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Cape Verde">CPV</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="New Zealand">NZL</span>
                         <div class="d-flex align-items-center gap-1">
@@ -593,7 +601,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Egypt">EGY</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Argentina">ARG</span>
                         <div class="d-flex align-items-center gap-1">
@@ -604,7 +612,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Austria">AUT</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="France">FRA</span>
                         <div class="d-flex align-items-center gap-1">
@@ -615,7 +623,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Iraq">IRQ</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Norway">NOR</span>
                         <div class="d-flex align-items-center gap-1">
@@ -626,7 +634,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Senegal">SEN</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Jordan">JOR</span>
                         <div class="d-flex align-items-center gap-1">
@@ -637,7 +645,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Algeria">ALG</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Portugal">POR</span>
                         <div class="d-flex align-items-center gap-1">
@@ -648,7 +656,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Uzbekistan">UZB</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="England">ENG</span>
                         <div class="d-flex align-items-center gap-1">
@@ -659,7 +667,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Ghana">GHA</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Panama">PAN</span>
                         <div class="d-flex align-items-center gap-1">
@@ -670,7 +678,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Croatia">CRO</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Colombia">COL</span>
                         <div class="d-flex align-items-center gap-1">
@@ -683,7 +691,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-4">
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Switzerland">SUI</span>
                         <div class="d-flex align-items-center gap-1">
@@ -694,7 +702,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Canada">CAN</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Bosnia and Herzegovina">BIH</span>
                         <div class="d-flex align-items-center gap-1">
@@ -705,7 +713,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Qatar">QAT</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Scotland">SCO</span>
                         <div class="d-flex align-items-center gap-1">
@@ -716,7 +724,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Brazil">BRA</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Morocco">MAR</span>
                         <div class="d-flex align-items-center gap-1">
@@ -727,7 +735,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Haiti">HAI</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Czech Republic">CZE</span>
                         <div class="d-flex align-items-center gap-1">
@@ -738,7 +746,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Mexico">MEX</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="South Africa">RSA</span>
                         <div class="d-flex align-items-center gap-1">
@@ -749,7 +757,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="South Korea">KOR</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Curacao">CUW</span>
                         <div class="d-flex align-items-center gap-1">
@@ -760,7 +768,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Ivory Coast">CIV</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Ecuador">ECU</span>
                         <div class="d-flex align-items-center gap-1">
@@ -771,7 +779,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Germany">GER</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Japan">JPN</span>
                         <div class="d-flex align-items-center gap-1">
@@ -782,7 +790,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Sweden">SWE</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Tunisia">TUN</span>
                         <div class="d-flex align-items-center gap-1">
@@ -793,7 +801,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Netherlands">NED</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Turkey">TUR</span>
                         <div class="d-flex align-items-center gap-1">
@@ -804,7 +812,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="United States">USA</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Paraguay">PAR</span>
                         <div class="d-flex align-items-center gap-1">
@@ -815,7 +823,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Australia">AUS</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Norway">NOR</span>
                         <div class="d-flex align-items-center gap-1">
@@ -826,7 +834,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="France">FRA</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Senegal">SEN</span>
                         <div class="d-flex align-items-center gap-1">
@@ -837,7 +845,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Iraq">IRQ</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Cape Verde">CPV</span>
                         <div class="d-flex align-items-center gap-1">
@@ -848,7 +856,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Saudi Arabia">KSA</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Uruguay">URU</span>
                         <div class="d-flex align-items-center gap-1">
@@ -859,7 +867,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Spain">ESP</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Egypt">EGY</span>
                         <div class="d-flex align-items-center gap-1">
@@ -870,7 +878,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Iran">IRN</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="New Zealand">NZL</span>
                         <div class="d-flex align-items-center gap-1">
@@ -881,7 +889,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Belgium">BEL</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Panama">PAN</span>
                         <div class="d-flex align-items-center gap-1">
@@ -892,7 +900,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="England">ENG</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Croatia">CRO</span>
                         <div class="d-flex align-items-center gap-1">
@@ -903,7 +911,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Ghana">GHA</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Colombia">COL</span>
                         <div class="d-flex align-items-center gap-1">
@@ -914,7 +922,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Portugal">POR</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="DR Congo">COD</span>
                         <div class="d-flex align-items-center gap-1">
@@ -925,7 +933,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Uzbekistan">UZB</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Algeria">ALG</span>
                         <div class="d-flex align-items-center gap-1">
@@ -936,7 +944,7 @@
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="right"
                             data-bs-content="Austria">AUT</span>
                     </div>
-                    <div name="match" class="d-flex justify-content-center align-items-center gap-3">
+                    <div class="match">
                         <span data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left"
                             data-bs-content="Jordan">JOR</span>
                         <div class="d-flex align-items-center gap-1">
@@ -966,7 +974,7 @@
         }));
         updateMsc = () => {
             let output = "msc ";
-            Array.from(document.getElementsByName("match")).forEach(li => {
+            Array.from(document.getElementsByClassName("match")).forEach(li => {
                 output +=
                     li.getElementsByTagName("input")[0].value +
                     "-" +
@@ -982,7 +990,7 @@
         }));
         updateGsc = () =>{
             let output = "gsc ";
-            Array.from(document.getElementsByName("group")).forEach(g => {
+            Array.from(document.getElementsByClassName("group")).forEach(g => {
                 let checked = Array.from(g.querySelectorAll("input[type='radio']:checked"));
                 output += checked.length === 0 ? "_ " : checked[0].value + " ";
             });
